@@ -5,9 +5,4 @@ D Multiplexer 8 to 1, 3 state Out
 K TTL MUX MUX8 3State
 $ENDCMP
 #
-$CMP 74HS251
-D Multiplexer 8 to 1, 3 state Out
-K TTL MUX MUX8 3State
-$ENDCMP
-#
 #End Doc Library
