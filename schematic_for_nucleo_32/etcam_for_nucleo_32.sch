@@ -1,1 +1,234 @@
 EESchema Schematic File Version 2
+LIBS:power
+LIBS:device
+LIBS:switches
+LIBS:relays
+LIBS:motors
+LIBS:transistors
+LIBS:conn
+LIBS:linear
+LIBS:regul
+LIBS:74xx
+LIBS:cmos4000
+LIBS:adc-dac
+LIBS:memory
+LIBS:xilinx
+LIBS:microcontrollers
+LIBS:dsp
+LIBS:microchip
+LIBS:analog_switches
+LIBS:motorola
+LIBS:texas
+LIBS:intel
+LIBS:audio
+LIBS:interface
+LIBS:digital-audio
+LIBS:philips
+LIBS:display
+LIBS:cypress
+LIBS:siliconi
+LIBS:opto
+LIBS:atmel
+LIBS:contrib
+LIBS:valves
+LIBS:etcam_lib
+LIBS:etcam_for_nucleo_32-cache
+EELAYER 25 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L Nucleo_32 U?
+U 1 1 5C00E48E
+P 5250 4700
+F 0 "U?" H 5150 5500 60  0000 C CNN
+F 1 "Nucleo_32" H 5300 3900 60  0000 C CNN
+F 2 "" H 5150 5250 60  0001 C CNN
+F 3 "" H 5150 5250 60  0001 C CNN
+	1    5250 4700
+	1    0    0    -1  
+$EndComp
+$Comp
+L Nucleo_32 U?
+U 2 1 5C00E4C9
+P 6100 4700
+F 0 "U?" H 6000 5500 60  0000 C CNN
+F 1 "Nucleo_32" H 6150 3900 60  0000 C CNN
+F 2 "" H 6000 5250 60  0001 C CNN
+F 3 "" H 6000 5250 60  0001 C CNN
+	2    6100 4700
+	1    0    0    -1  
+$EndComp
+$Comp
+L 74HC251 U?
+U 1 1 5C00E5B3
+P 3050 4600
+F 0 "U?" H 3050 4600 50  0000 C CNN
+F 1 "74HC251" H 3050 4450 50  0000 C CNN
+F 2 "" H 3050 4600 50  0001 C CNN
+F 3 "" H 3050 4600 50  0001 C CNN
+	1    3050 4600
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR?
+U 1 1 5C00ECC0
+P 3050 5550
+F 0 "#PWR?" H 3050 5300 50  0001 C CNN
+F 1 "GND" H 3050 5400 50  0000 C CNN
+F 2 "" H 3050 5550 50  0001 C CNN
+F 3 "" H 3050 5550 50  0001 C CNN
+	1    3050 5550
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3600 4100 4950 4100
+Wire Wire Line
+	6400 5000 6650 5000
+Wire Wire Line
+	6400 4900 6650 4900
+Wire Wire Line
+	6400 4800 6650 4800
+Wire Wire Line
+	2250 5050 2500 5050
+Wire Wire Line
+	2250 4950 2500 4950
+Wire Wire Line
+	2250 4850 2500 4850
+Text Label 6650 4800 0    60   ~ 0
+T_SEL2
+NoConn ~ 3600 4200
+Wire Wire Line
+	3050 5450 3050 5550
+Wire Wire Line
+	3050 5500 2400 5500
+Wire Wire Line
+	2400 5500 2400 5250
+Wire Wire Line
+	2400 5250 2500 5250
+Connection ~ 3050 5500
+$Comp
+L +3V3 #PWR?
+U 1 1 5C010670
+P 7100 5200
+F 0 "#PWR?" H 7100 5050 50  0001 C CNN
+F 1 "+3V3" H 7100 5340 50  0000 C CNN
+F 2 "" H 7100 5200 50  0001 C CNN
+F 3 "" H 7100 5200 50  0001 C CNN
+	1    7100 5200
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7100 5300 7100 5200
+Wire Wire Line
+	6400 5300 7100 5300
+Wire Wire Line
+	6400 5200 6500 5200
+Wire Wire Line
+	6500 5200 6500 5300
+Connection ~ 6500 5300
+$Comp
+L GND #PWR?
+U 1 1 5C010908
+P 4250 4400
+F 0 "#PWR?" H 4250 4150 50  0001 C CNN
+F 1 "GND" H 4250 4250 50  0000 C CNN
+F 2 "" H 4250 4400 50  0001 C CNN
+F 3 "" H 4250 4400 50  0001 C CNN
+	1    4250 4400
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4950 4300 4250 4300
+$Comp
+L GND #PWR?
+U 1 1 5C010A21
+P 7100 4200
+F 0 "#PWR?" H 7100 3950 50  0001 C CNN
+F 1 "GND" H 7100 4050 50  0000 C CNN
+F 2 "" H 7100 4200 50  0001 C CNN
+F 3 "" H 7100 4200 50  0001 C CNN
+	1    7100 4200
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6400 4100 7100 4100
+Wire Wire Line
+	7100 4100 7100 4200
+Wire Wire Line
+	4250 4300 4250 4400
+$Comp
+L +3V3 #PWR?
+U 1 1 5C010E03
+P 3050 3250
+F 0 "#PWR?" H 3050 3100 50  0001 C CNN
+F 1 "+3V3" H 3050 3390 50  0000 C CNN
+F 2 "" H 3050 3250 50  0001 C CNN
+F 3 "" H 3050 3250 50  0001 C CNN
+	1    3050 3250
+	1    0    0    -1  
+$EndComp
+$Comp
+L C_Small C?
+U 1 1 5C010F02
+P 3300 3500
+F 0 "C?" H 3310 3570 50  0000 L CNN
+F 1 "0.1uF" H 3310 3420 50  0000 L CNN
+F 2 "" H 3300 3500 50  0001 C CNN
+F 3 "" H 3300 3500 50  0001 C CNN
+	1    3300 3500
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR?
+U 1 1 5C012E48
+P 3300 3650
+F 0 "#PWR?" H 3300 3400 50  0001 C CNN
+F 1 "GND" H 3300 3500 50  0000 C CNN
+F 2 "" H 3300 3650 50  0001 C CNN
+F 3 "" H 3300 3650 50  0001 C CNN
+	1    3300 3650
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3050 3250 3050 3750
+Connection ~ 3050 3350
+Wire Wire Line
+	3300 3350 3300 3400
+Wire Wire Line
+	3300 3600 3300 3650
+Wire Wire Line
+	3300 3350 3050 3350
+NoConn ~ 4950 4200
+NoConn ~ 6400 4600
+NoConn ~ 6400 4700
+NoConn ~ 4950 4600
+NoConn ~ 4950 4700
+NoConn ~ 6400 4000
+NoConn ~ 6400 4200
+NoConn ~ 6400 4300
+NoConn ~ 6400 4400
+NoConn ~ 6400 5100
+NoConn ~ 4950 4900
+Text Label 6650 4900 0    60   ~ 0
+T_SEL1
+Text Label 6650 5000 0    60   ~ 0
+T_SEL0
+Text Label 2250 5050 2    60   ~ 0
+T_SEL2
+Text Label 2250 4950 2    60   ~ 0
+T_SEL1
+Text Label 2250 4850 2    60   ~ 0
+T_SEL0
+NoConn ~ 6400 5400
+$EndSCHEMATC
