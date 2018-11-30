@@ -1,4 +1,4 @@
-update=12/1/2018 2:35:30 AM
+update=12/1/2018 2:42:26 AM
 version=1
 last_client=kicad
 [pcbnew]
@@ -61,4 +61,4 @@ LibName29=opto
 LibName30=atmel
 LibName31=contrib
 LibName32=valves
-LibName33=etcam_lib
+LibName33=etcam
