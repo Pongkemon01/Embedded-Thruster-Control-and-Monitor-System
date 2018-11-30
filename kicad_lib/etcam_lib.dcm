@@ -5,8 +5,8 @@ D Multiplexer 8 to 1, 3 state Out
 K TTL MUX MUX8 3State
 $ENDCMP
 #
-$CMP Si8660BA-B-IS1
-D 6-Channel Digital Isolator
+$CMP Si8640BB-B-IS1
+D 4-Channel Digital Isolator
 K Isolator
 $ENDCMP
 #
