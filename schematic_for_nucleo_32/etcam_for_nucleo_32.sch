@@ -32,7 +32,6 @@ LIBS:atmel
 LIBS:contrib
 LIBS:valves
 LIBS:etcam_lib
-LIBS:etcam_for_nucleo_32-cache
 EELAYER 25 0
 EELAYER END
 $Descr A4 11693 8268
@@ -53,7 +52,7 @@ U 1 1 5C00E48E
 P 7000 2300
 F 0 "U4" H 6900 3100 60  0000 C CNN
 F 1 "Nucleo_32" H 7050 1500 60  0000 C CNN
-F 2 "Socket_Strips:Socket_Strip_Straight_1x15_Pitch2.54mm" H 6900 2850 60  0001 C CNN
+F 2 "etcam:Nucleo-32" H 6900 2850 60  0001 C CNN
 F 3 "" H 6900 2850 60  0001 C CNN
 	1    7000 2300
 	1    0    0    -1  
@@ -64,7 +63,7 @@ U 2 1 5C00E4C9
 P 7900 2300
 F 0 "U4" H 7800 3100 60  0000 C CNN
 F 1 "Nucleo_32" H 7950 1500 60  0000 C CNN
-F 2 "Socket_Strips:Socket_Strip_Straight_1x15_Pitch2.54mm" H 7800 2850 60  0001 C CNN
+F 2 "etcam:Nucleo-32" H 7800 2850 60  0001 C CNN
 F 3 "" H 7800 2850 60  0001 C CNN
 	2    7900 2300
 	1    0    0    -1  
