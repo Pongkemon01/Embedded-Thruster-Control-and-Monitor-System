@@ -32,6 +32,7 @@ LIBS:atmel
 LIBS:contrib
 LIBS:valves
 LIBS:etcam
+LIBS:etcam_for_nucleo_32-cache
 EELAYER 25 0
 EELAYER END
 $Descr A4 11693 8268
@@ -308,19 +309,13 @@ Connection ~ 8000 4850
 Wire Wire Line
 	5900 1900 5900 1950
 Text Label 8200 4250 0    60   ~ 0
-ESC1
+DSHOT1
 Wire Wire Line
 	7950 4450 8200 4450
 Wire Wire Line
 	7950 4350 8200 4350
 Wire Wire Line
 	7950 4250 8200 4250
-Text Label 8200 4350 0    60   ~ 0
-ESC2
-Text Label 8200 4450 0    60   ~ 0
-ESC3
-Text Label 8200 4550 0    60   ~ 0
-ESC4
 Wire Wire Line
 	8200 4550 7950 4550
 $Comp
@@ -359,20 +354,12 @@ $EndComp
 Wire Wire Line
 	10000 6100 10000 6250
 Connection ~ 10000 6200
-Text Label 10200 5600 0    60   ~ 0
-ESC5
 Wire Wire Line
 	9950 5800 10200 5800
 Wire Wire Line
 	9950 5700 10200 5700
 Wire Wire Line
 	9950 5600 10200 5600
-Text Label 10200 5700 0    60   ~ 0
-ESC6
-Text Label 10200 5800 0    60   ~ 0
-ESC7
-Text Label 10200 5900 0    60   ~ 0
-ESC8
 Wire Wire Line
 	10200 5900 9950 5900
 Wire Wire Line
@@ -1054,14 +1041,6 @@ Connection ~ 5050 5200
 Wire Wire Line
 	5250 5000 5050 5000
 Connection ~ 5050 5100
-Text Label 3500 5000 2    60   ~ 0
-ESC1
-Text Label 3500 5100 2    60   ~ 0
-ESC2
-Text Label 3500 5200 2    60   ~ 0
-ESC3
-Text Label 3500 5300 2    60   ~ 0
-ESC4
 Wire Wire Line
 	3500 5000 3700 5000
 Wire Wire Line
@@ -1070,14 +1049,6 @@ Wire Wire Line
 	3500 5200 3700 5200
 Wire Wire Line
 	3500 5300 3700 5300
-Text Label 3500 5400 2    60   ~ 0
-ESC5
-Text Label 3500 5500 2    60   ~ 0
-ESC6
-Text Label 3500 5600 2    60   ~ 0
-ESC7
-Text Label 3500 5700 2    60   ~ 0
-ESC8
 Wire Wire Line
 	3500 5700 3700 5700
 Wire Wire Line
@@ -1118,4 +1089,34 @@ Text Label 4400 5600 0    60   ~ 0
 TEL7
 Text Label 4400 5700 0    60   ~ 0
 TEL8
+Text Label 8200 4350 0    60   ~ 0
+DSHOT2
+Text Label 8200 4450 0    60   ~ 0
+DSHOT3
+Text Label 8200 4550 0    60   ~ 0
+DSHOT4
+Text Label 10200 5600 0    60   ~ 0
+DSHOT5
+Text Label 10200 5700 0    60   ~ 0
+DSHOT6
+Text Label 10200 5800 0    60   ~ 0
+DSHOT7
+Text Label 10200 5900 0    60   ~ 0
+DSHOT8
+Text Label 3500 5000 2    60   ~ 0
+DSHOT1
+Text Label 3500 5100 2    60   ~ 0
+DSHOT2
+Text Label 3500 5200 2    60   ~ 0
+DSHOT3
+Text Label 3500 5300 2    60   ~ 0
+DSHOT4
+Text Label 3500 5400 2    60   ~ 0
+DSHOT5
+Text Label 3500 5500 2    60   ~ 0
+DSHOT6
+Text Label 3500 5600 2    60   ~ 0
+DSHOT7
+Text Label 3500 5700 2    60   ~ 0
+DSHOT8
 $EndSCHEMATC
