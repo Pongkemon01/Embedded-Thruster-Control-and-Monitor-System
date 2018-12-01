@@ -1,4 +1,4 @@
-(module Nucleo-32 (layer F.Cu) (tedit 5C018D92)
+(module Nucleo-32 (layer F.Cu) (tedit 5C026641)
   (fp_text reference REF** (at 0 -5) (layer F.SilkS)
     (effects (font (size 1 1) (thickness 0.15)))
   )
@@ -6,7 +6,6 @@
     (effects (font (size 1 1) (thickness 0.15)))
   )
   (fp_line (start 16.89 -3.81) (end -1.65 -3.81) (layer F.SilkS) (width 0.15))
-  (fp_line (start 20 36) (end 20 36) (layer F.SilkS) (width 0.15))
   (fp_line (start -1.65 -3.81) (end -1.65 39.37) (layer F.SilkS) (width 0.15))
   (fp_line (start -1.27 -1.27) (end -1.27 36.83) (layer F.Fab) (width 0.1))
   (fp_line (start -1.27 36.83) (end 1.27 36.83) (layer F.Fab) (width 0.1))
