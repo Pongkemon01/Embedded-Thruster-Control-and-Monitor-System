@@ -1,0 +1,319 @@
+EESchema Schematic File Version 2
+LIBS:power
+LIBS:device
+LIBS:switches
+LIBS:relays
+LIBS:motors
+LIBS:transistors
+LIBS:conn
+LIBS:linear
+LIBS:regul
+LIBS:74xx
+LIBS:cmos4000
+LIBS:adc-dac
+LIBS:memory
+LIBS:xilinx
+LIBS:microcontrollers
+LIBS:dsp
+LIBS:microchip
+LIBS:analog_switches
+LIBS:motorola
+LIBS:texas
+LIBS:intel
+LIBS:audio
+LIBS:interface
+LIBS:digital-audio
+LIBS:philips
+LIBS:display
+LIBS:cypress
+LIBS:siliconi
+LIBS:opto
+LIBS:atmel
+LIBS:contrib
+LIBS:valves
+LIBS:etcam
+LIBS:etcam-cache
+EELAYER 25 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 6 6
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L LM1117-3.3 U?
+U 1 1 5CC660E5
+P 6000 2300
+F 0 "U?" H 5850 2425 50  0000 C CNN
+F 1 "LM1117-3.3" H 6000 2425 50  0000 L CNN
+F 2 "" H 6000 2300 50  0001 C CNN
+F 3 "" H 6000 2300 50  0001 C CNN
+	1    6000 2300
+	1    0    0    -1  
+$EndComp
+$Comp
+L CP_Small C?
+U 1 1 5CC660EC
+P 6400 2500
+F 0 "C?" H 6410 2570 50  0000 L CNN
+F 1 "10uF" H 6410 2420 50  0000 L CNN
+F 2 "" H 6400 2500 50  0001 C CNN
+F 3 "" H 6400 2500 50  0001 C CNN
+	1    6400 2500
+	1    0    0    -1  
+$EndComp
+$Comp
+L CP_Small C?
+U 1 1 5CC660F3
+P 5600 2500
+F 0 "C?" H 5610 2570 50  0000 L CNN
+F 1 "10uF" H 5610 2420 50  0000 L CNN
+F 2 "" H 5600 2500 50  0001 C CNN
+F 3 "" H 5600 2500 50  0001 C CNN
+	1    5600 2500
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR?
+U 1 1 5CC660FA
+P 6000 2750
+F 0 "#PWR?" H 6000 2500 50  0001 C CNN
+F 1 "GND" H 6000 2600 50  0000 C CNN
+F 2 "" H 6000 2750 50  0001 C CNN
+F 3 "" H 6000 2750 50  0001 C CNN
+	1    6000 2750
+	1    0    0    -1  
+$EndComp
+$Comp
+L ADuM5020 U?
+U 1 1 5CC66101
+P 6000 4050
+F 0 "U?" H 5700 4500 60  0000 C CNN
+F 1 "ADuM5020" H 6200 3600 60  0000 C CNN
+F 2 "Housings_SOIC:SOIC-16W_7.5x10.3mm_Pitch1.27mm" H 6000 3450 60  0001 C CNN
+F 3 "" H 6000 3350 60  0001 C CNN
+	1    6000 4050
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR?
+U 1 1 5CC66108
+P 4450 4600
+F 0 "#PWR?" H 4450 4350 50  0001 C CNN
+F 1 "GND" H 4450 4450 50  0000 C CNN
+F 2 "" H 4450 4600 50  0001 C CNN
+F 3 "" H 4450 4600 50  0001 C CNN
+	1    4450 4600
+	1    0    0    -1  
+$EndComp
+$Comp
+L C_Small C?
+U 1 1 5CC6610E
+P 5150 4300
+F 0 "C?" H 5160 4370 50  0000 L CNN
+F 1 "0.1uF" H 5160 4220 50  0000 L CNN
+F 2 "Capacitors_SMD:C_0603_HandSoldering" H 5150 4300 50  0001 C CNN
+F 3 "" H 5150 4300 50  0001 C CNN
+	1    5150 4300
+	-1   0    0    -1  
+$EndComp
+$Comp
+L C_Small C?
+U 1 1 5CC66115
+P 4650 4300
+F 0 "C?" H 4660 4370 50  0000 L CNN
+F 1 "10uF" H 4660 4220 50  0000 L CNN
+F 2 "Capacitors_SMD:C_0805_HandSoldering" H 4650 4300 50  0001 C CNN
+F 3 "" H 4650 4300 50  0001 C CNN
+	1    4650 4300
+	-1   0    0    -1  
+$EndComp
+$Comp
+L C_Small C?
+U 1 1 5CC6611C
+P 6850 4300
+F 0 "C?" H 6860 4370 50  0000 L CNN
+F 1 "0.22uF" H 6860 4220 50  0000 L CNN
+F 2 "Capacitors_SMD:C_0603_HandSoldering" H 6850 4300 50  0001 C CNN
+F 3 "" H 6850 4300 50  0001 C CNN
+	1    6850 4300
+	1    0    0    -1  
+$EndComp
+$Comp
+L C_Small C?
+U 1 1 5CC66123
+P 7350 4300
+F 0 "C?" H 7360 4370 50  0000 L CNN
+F 1 "10uF" H 7360 4220 50  0000 L CNN
+F 2 "Capacitors_SMD:C_0805_HandSoldering" H 7350 4300 50  0001 C CNN
+F 3 "" H 7350 4300 50  0001 C CNN
+	1    7350 4300
+	1    0    0    -1  
+$EndComp
+$Comp
+L GNDPWR #PWR?
+U 1 1 5CC6612A
+P 7550 4600
+F 0 "#PWR?" H 7550 4400 50  0001 C CNN
+F 1 "GNDPWR" H 7550 4470 50  0000 C CNN
+F 2 "" H 7550 4550 50  0001 C CNN
+F 3 "" H 7550 4550 50  0001 C CNN
+	1    7550 4600
+	-1   0    0    -1  
+$EndComp
+$Comp
+L Ferrite_Bead_Small L?
+U 1 1 5CC66130
+P 4900 4100
+F 0 "L?" V 4700 4250 50  0000 L CNN
+F 1 "BLM15HD182SN1" V 4800 3700 50  0000 L CNN
+F 2 "Inductors_SMD:L_0402" V 4830 4100 50  0001 C CNN
+F 3 "" H 4900 4100 50  0001 C CNN
+	1    4900 4100
+	0    -1   1    0   
+$EndComp
+$Comp
+L Ferrite_Bead_Small L?
+U 1 1 5CC66137
+P 4900 4500
+F 0 "L?" V 5000 4550 50  0000 L CNN
+F 1 "BLM15HD182SN1" V 5100 4000 50  0000 L CNN
+F 2 "Inductors_SMD:L_0402" V 4830 4500 50  0001 C CNN
+F 3 "" H 4900 4500 50  0001 C CNN
+	1    4900 4500
+	0    -1   1    0   
+$EndComp
+$Comp
+L Ferrite_Bead_Small L?
+U 1 1 5CC6613E
+P 7100 4100
+F 0 "L?" V 6900 4250 50  0000 L CNN
+F 1 "BLM15HD182SN1" V 7000 3700 50  0000 L CNN
+F 2 "Inductors_SMD:L_0402" V 7030 4100 50  0001 C CNN
+F 3 "" H 7100 4100 50  0001 C CNN
+	1    7100 4100
+	0    -1   1    0   
+$EndComp
+$Comp
+L Ferrite_Bead_Small L?
+U 1 1 5CC66145
+P 7100 4500
+F 0 "L?" V 7200 4550 50  0000 L CNN
+F 1 "BLM15HD182SN1" V 7300 4250 50  0000 L CNN
+F 2 "Inductors_SMD:L_0402" V 7030 4500 50  0001 C CNN
+F 3 "" H 7100 4500 50  0001 C CNN
+	1    7100 4500
+	0    -1   1    0   
+$EndComp
+Wire Wire Line
+	3850 2300 5700 2300
+Connection ~ 5600 2300
+Wire Wire Line
+	5600 2300 5600 2400
+Connection ~ 6000 2700
+Wire Wire Line
+	5600 2700 5600 2600
+Wire Wire Line
+	6000 2600 6000 2750
+Wire Wire Line
+	6400 2700 5600 2700
+Wire Wire Line
+	6400 2600 6400 2700
+Wire Wire Line
+	6400 2300 6400 2400
+Connection ~ 6400 2300
+Wire Wire Line
+	5400 4500 5400 3800
+Wire Wire Line
+	5400 4400 5500 4400
+Connection ~ 5400 4400
+Wire Wire Line
+	5500 4200 5400 4200
+Connection ~ 5400 4200
+Wire Wire Line
+	5400 3800 5500 3800
+Connection ~ 5400 4000
+Wire Wire Line
+	5500 3900 5400 3900
+Connection ~ 5400 3900
+Wire Wire Line
+	6500 4400 6600 4400
+Wire Wire Line
+	6600 3800 6600 4500
+Wire Wire Line
+	6500 3800 6600 3800
+Connection ~ 6600 4400
+Wire Wire Line
+	6500 4000 6600 4000
+Connection ~ 6600 4000
+Wire Wire Line
+	6500 4200 6600 4200
+Connection ~ 6600 4200
+Wire Wire Line
+	6500 3900 6600 3900
+Connection ~ 6600 3900
+Wire Wire Line
+	4650 4100 4650 4200
+Connection ~ 4650 4100
+Wire Wire Line
+	5150 4100 5150 4200
+Wire Wire Line
+	5000 4500 5400 4500
+Wire Wire Line
+	5150 4500 5150 4400
+Wire Wire Line
+	4450 4500 4800 4500
+Wire Wire Line
+	4650 4500 4650 4400
+Wire Wire Line
+	4450 4600 4450 4500
+Connection ~ 4650 4500
+Wire Wire Line
+	7350 4100 7350 4200
+Connection ~ 7350 4100
+Wire Wire Line
+	6500 4100 7000 4100
+Wire Wire Line
+	6850 4100 6850 4200
+Wire Wire Line
+	6600 4500 7000 4500
+Wire Wire Line
+	6850 4500 6850 4400
+Wire Wire Line
+	7550 4500 7200 4500
+Wire Wire Line
+	7350 4500 7350 4400
+Wire Wire Line
+	7550 4600 7550 4500
+Connection ~ 7350 4500
+Connection ~ 5150 4100
+Connection ~ 5150 4500
+Connection ~ 6850 4100
+Connection ~ 6850 4500
+Wire Wire Line
+	5500 4000 5400 4000
+Wire Wire Line
+	5000 4100 5500 4100
+Text HLabel 3850 2300 0    60   Input ~ 0
++5V_USB
+Text HLabel 8150 2300 2    60   Output ~ 0
++3.3V_USB
+Text HLabel 8150 4100 2    60   Output ~ 0
++3.3V_ISOLATOR
+Wire Wire Line
+	4450 4100 4800 4100
+Wire Wire Line
+	4450 4100 4450 2300
+Connection ~ 4450 2300
+Wire Wire Line
+	6300 2300 8150 2300
+Wire Wire Line
+	7200 4100 8150 4100
+$EndSCHEMATC

@@ -37,7 +37,7 @@ EELAYER 25 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 2 3
+Sheet 2 6
 Title ""
 Date ""
 Rev ""
@@ -72,7 +72,7 @@ F 3 "" H 4500 3550 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 Text Label 4750 2850 2    60   ~ 12
-+3V3_FTDI
++3.3V_FTDI
 $Comp
 L GND #PWR?
 U 1 1 5CB9E227
@@ -93,24 +93,24 @@ NoConn ~ 6800 3550
 $Comp
 L LED_Small D?
 U 1 1 5CB9E233
-P 7200 3600
-F 0 "D?" H 7150 3725 50  0000 L CNN
-F 1 "TX_LED" H 7025 3500 50  0000 L CNN
-F 2 "" V 7200 3600 50  0001 C CNN
-F 3 "" V 7200 3600 50  0001 C CNN
-	1    7200 3600
-	0    -1   -1   0   
+P 7300 3500
+F 0 "D?" H 7250 3625 50  0000 L CNN
+F 1 "TX_LED" H 7125 3400 50  0000 L CNN
+F 2 "" V 7300 3500 50  0001 C CNN
+F 3 "" V 7300 3500 50  0001 C CNN
+	1    7300 3500
+	1    0    0    -1  
 $EndComp
 $Comp
 L LED_Small D?
 U 1 1 5CB9E23A
-P 7550 3700
-F 0 "D?" H 7500 3825 50  0000 L CNN
-F 1 "RXLED" H 7375 3600 50  0000 L CNN
-F 2 "" V 7550 3700 50  0001 C CNN
-F 3 "" V 7550 3700 50  0001 C CNN
-	1    7550 3700
-	0    -1   -1   0   
+P 7300 3850
+F 0 "D?" H 7250 3975 50  0000 L CNN
+F 1 "RXLED" H 7125 3750 50  0000 L CNN
+F 2 "" V 7300 3850 50  0001 C CNN
+F 3 "" V 7300 3850 50  0001 C CNN
+	1    7300 3850
+	1    0    0    -1  
 $EndComp
 NoConn ~ 6800 3950
 NoConn ~ 6800 4050
@@ -118,27 +118,27 @@ NoConn ~ 6800 4150
 $Comp
 L R R?
 U 1 1 5CB9E245
-P 7200 3300
-F 0 "R?" V 7280 3300 50  0000 C CNN
-F 1 "330" V 7200 3300 50  0000 C CNN
-F 2 "" V 7130 3300 50  0001 C CNN
-F 3 "" H 7200 3300 50  0001 C CNN
-	1    7200 3300
-	-1   0    0    1   
+P 7600 3850
+F 0 "R?" V 7680 3850 50  0000 C CNN
+F 1 "330" V 7600 3850 50  0000 C CNN
+F 2 "" V 7530 3850 50  0001 C CNN
+F 3 "" H 7600 3850 50  0001 C CNN
+	1    7600 3850
+	0    -1   1    0   
 $EndComp
 $Comp
 L R R?
 U 1 1 5CB9E24C
-P 7550 3400
-F 0 "R?" V 7630 3400 50  0000 C CNN
-F 1 "330" V 7550 3400 50  0000 C CNN
-F 2 "" V 7480 3400 50  0001 C CNN
-F 3 "" H 7550 3400 50  0001 C CNN
-	1    7550 3400
-	-1   0    0    1   
+P 7600 3500
+F 0 "R?" V 7680 3500 50  0000 C CNN
+F 1 "330" V 7600 3500 50  0000 C CNN
+F 2 "" V 7530 3500 50  0001 C CNN
+F 3 "" H 7600 3500 50  0001 C CNN
+	1    7600 3500
+	0    -1   1    0   
 $EndComp
 Text Label 4550 4050 2    60   ~ 12
-+3V3_FTDI
++3.3V_FTDI
 $Comp
 L C_Small C?
 U 1 1 5CB9E255
@@ -161,19 +161,6 @@ F 3 "" H 4800 4400 50  0001 C CNN
 	1    4800 4400
 	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	6750 3850 7550 3850
-Wire Wire Line
-	7200 3750 6800 3750
-Connection ~ 7550 3100
-Wire Wire Line
-	7550 3550 7550 3600
-Wire Wire Line
-	7200 3100 7200 3150
-Wire Wire Line
-	7200 3100 7800 3100
-Wire Wire Line
-	7200 3450 7200 3500
 Wire Wire Line
 	6050 4500 6050 4450
 Wire Wire Line
@@ -266,22 +253,16 @@ Wire Wire Line
 Connection ~ 3200 3350
 Connection ~ 3200 2950
 Text HLabel 2350 2950 0    60   Input ~ 0
-+5V
++5V_USB
 Wire Wire Line
 	3200 2950 3200 3050
 Connection ~ 4250 2950
-Text Label 7800 3100 0    60   ~ 12
-+3V3_FTDI
-Wire Wire Line
-	7550 3100 7550 3250
+Text Label 7850 3300 0    60   ~ 12
++3.3V_FTDI
 Text HLabel 8700 2850 2    60   Output ~ 0
 TX
 Text HLabel 8700 2950 2    60   Input ~ 0
 RX
-Wire Wire Line
-	7550 3850 7550 3800
-Wire Wire Line
-	7200 3700 7200 3750
 Wire Wire Line
 	6800 2850 8700 2850
 Wire Wire Line
@@ -305,4 +286,23 @@ Wire Wire Line
 	3750 3250 3750 3900
 Wire Wire Line
 	3750 3900 2350 3900
+Wire Wire Line
+	7450 3500 7400 3500
+Wire Wire Line
+	7100 3750 6800 3750
+Wire Wire Line
+	7450 3850 7400 3850
+Wire Wire Line
+	7850 3850 7750 3850
+Wire Wire Line
+	7850 3300 7850 3850
+Wire Wire Line
+	7200 3500 7100 3500
+Wire Wire Line
+	7100 3500 7100 3750
+Wire Wire Line
+	6800 3850 7200 3850
+Wire Wire Line
+	7850 3500 7750 3500
+Connection ~ 7850 3500
 $EndSCHEMATC
