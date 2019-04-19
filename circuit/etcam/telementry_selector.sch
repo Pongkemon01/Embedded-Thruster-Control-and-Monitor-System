@@ -38,9 +38,9 @@ EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
 Sheet 4 6
-Title ""
-Date ""
-Rev ""
+Title "Telementry_selector"
+Date "2019-04-19"
+Rev "0.9.1"
 Comp ""
 Comment1 ""
 Comment2 ""
@@ -71,25 +71,14 @@ F 3 "" H 6000 4750 50  0001 C CNN
 $EndComp
 NoConn ~ 6550 3400
 $Comp
-L C_Small C15
+L C_Small C16
 U 1 1 5CBC630A
-P 6650 2850
-F 0 "C15" H 6660 2920 50  0000 L CNN
-F 1 "0.1uF" H 6660 2770 50  0000 L CNN
-F 2 "Capacitors_SMD:C_0603_HandSoldering" H 6650 2850 50  0001 C CNN
-F 3 "" H 6650 2850 50  0001 C CNN
-	1    6650 2850
-	1    0    0    -1  
-$EndComp
-$Comp
-L GND #PWR032
-U 1 1 5CBC6311
-P 6650 3000
-F 0 "#PWR032" H 6650 2750 50  0001 C CNN
-F 1 "GND" H 6650 2850 50  0000 C CNN
-F 2 "" H 6650 3000 50  0001 C CNN
-F 3 "" H 6650 3000 50  0001 C CNN
-	1    6650 3000
+P 5500 2600
+F 0 "C16" H 5510 2670 50  0000 L CNN
+F 1 "0.1uF" H 5510 2520 50  0000 L CNN
+F 2 "Capacitors_SMD:C_0603_HandSoldering" H 5500 2600 50  0001 C CNN
+F 3 "" H 5500 2600 50  0001 C CNN
+	1    5500 2600
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
@@ -102,12 +91,8 @@ Wire Wire Line
 	5350 4450 5450 4450
 Connection ~ 6000 4700
 Wire Wire Line
-	6650 2700 6650 2750
-Wire Wire Line
-	6650 2950 6650 3000
-Wire Wire Line
-	4900 2700 6650 2700
-Text HLabel 4900 2700 0    60   Input ~ 0
+	5150 2700 5150 2750
+Text HLabel 4900 2400 0    60   Input ~ 0
 +3.3V_USB
 Text HLabel 4900 3150 0    60   Input ~ 0
 TELEMENTRY1
@@ -154,10 +139,44 @@ Wire Wire Line
 Wire Wire Line
 	4900 3850 5450 3850
 Wire Wire Line
-	6000 2700 6000 2950
-Connection ~ 6000 2700
+	6000 2400 6000 2950
 Text HLabel 7100 3300 2    60   Output ~ 0
 SELECTED_TELEMENTRY
 Wire Wire Line
 	6550 3300 7100 3300
+$Comp
+L CP_Small C15
+U 1 1 5CB98C10
+P 5150 2600
+F 0 "C15" H 5160 2670 50  0000 L CNN
+F 1 "1uF" H 5160 2520 50  0000 L CNN
+F 2 "Capacitors_SMD:C_1206_HandSoldering" H 5150 2600 50  0001 C CNN
+F 3 "" H 5150 2600 50  0001 C CNN
+	1    5150 2600
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR032
+U 1 1 5CB98C17
+P 5500 2800
+F 0 "#PWR032" H 5500 2550 50  0001 C CNN
+F 1 "GND" H 5500 2650 50  0000 C CNN
+F 2 "" H 5500 2800 50  0001 C CNN
+F 3 "" H 5500 2800 50  0001 C CNN
+	1    5500 2800
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5500 2700 5500 2800
+Wire Wire Line
+	5150 2400 5150 2500
+Connection ~ 5150 2400
+Wire Wire Line
+	5500 2400 5500 2500
+Connection ~ 5500 2400
+Wire Wire Line
+	4900 2400 6000 2400
+Wire Wire Line
+	5150 2750 5500 2750
+Connection ~ 5500 2750
 $EndSCHEMATC

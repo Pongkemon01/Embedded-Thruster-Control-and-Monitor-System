@@ -40,7 +40,7 @@ encoding utf-8
 Sheet 1 6
 Title "Embedded_thruster_Control_And_Monitor_system"
 Date "2019-04-19"
-Rev "0.90"
+Rev "0.9.1"
 Comp ""
 Comment1 ""
 Comment2 ""
@@ -94,34 +94,34 @@ $EndSheet
 $Comp
 L Conn_01x06 J1
 U 1 1 5CBB4E7B
-P 1150 5200
-F 0 "J1" H 1150 5500 50  0000 C CNN
-F 1 "SWD_connector" H 1150 4800 50  0000 C CNN
-F 2 "Pin_Headers:Pin_Header_Straight_1x06_Pitch2.54mm" H 1150 5200 50  0001 C CNN
-F 3 "" H 1150 5200 50  0001 C CNN
-	1    1150 5200
+P 1200 5400
+F 0 "J1" H 1200 5700 50  0000 C CNN
+F 1 "SWD_connector" H 1200 5000 50  0000 C CNN
+F 2 "Pin_Headers:Pin_Header_Straight_1x06_Pitch2.54mm" H 1200 5400 50  0001 C CNN
+F 3 "" H 1200 5400 50  0001 C CNN
+	1    1200 5400
 	-1   0    0    -1  
 $EndComp
-Text Label 1600 5000 0    60   ~ 12
+Text Label 1650 5200 0    60   ~ 12
 +3.3V_SWD
 $Comp
 L GND #PWR02
 U 1 1 5CBB4E85
-P 1450 5650
-F 0 "#PWR02" H 1450 5400 50  0001 C CNN
-F 1 "GND" H 1450 5500 50  0000 C CNN
-F 2 "" H 1450 5650 50  0001 C CNN
-F 3 "" H 1450 5650 50  0001 C CNN
-	1    1450 5650
+P 1500 5850
+F 0 "#PWR02" H 1500 5600 50  0001 C CNN
+F 1 "GND" H 1500 5700 50  0000 C CNN
+F 2 "" H 1500 5850 50  0001 C CNN
+F 3 "" H 1500 5850 50  0001 C CNN
+	1    1500 5850
 	1    0    0    -1  
 $EndComp
-Text Label 1600 5300 0    60   ~ 12
+Text Label 1650 5500 0    60   ~ 12
 TMS_SWDIO
-Text Label 1600 5500 0    60   ~ 12
+Text Label 1650 5700 0    60   ~ 12
 TDO_SWO
-Text Label 1600 5400 0    60   ~ 12
+Text Label 1650 5600 0    60   ~ 12
 ~RST
-Text Label 1600 5100 0    60   ~ 12
+Text Label 1650 5300 0    60   ~ 12
 TMS_SWCLK
 Text Label 4200 1100 0    60   ~ 12
 FTDI-->MCU
@@ -186,28 +186,6 @@ F 3 "" H 4650 7300 50  0001 C CNN
 $EndComp
 Text Label 1850 6600 2    60   ~ 12
 ISOLATED_DSHOT1
-$Comp
-L CP_Small C2
-U 1 1 5CB880FA
-P 4300 2700
-F 0 "C2" H 4310 2770 50  0000 L CNN
-F 1 "1uF" H 4310 2620 50  0000 L CNN
-F 2 "Capacitors_SMD:C_1206_HandSoldering" H 4300 2700 50  0001 C CNN
-F 3 "" H 4300 2700 50  0001 C CNN
-	1    4300 2700
-	1    0    0    -1  
-$EndComp
-$Comp
-L GND #PWR06
-U 1 1 5CB880FD
-P 4300 2850
-F 0 "#PWR06" H 4300 2600 50  0001 C CNN
-F 1 "GND" H 4300 2700 50  0000 C CNN
-F 2 "" H 4300 2850 50  0001 C CNN
-F 3 "" H 4300 2850 50  0001 C CNN
-	1    4300 2850
-	1    0    0    -1  
-$EndComp
 $Sheet
 S 7100 3100 2000 2100
 U 5CB95D60
@@ -374,16 +352,12 @@ Text Label 1800 3200 2    60   ~ 12
 +3.3V_USB
 Text Label 1800 3300 2    60   ~ 12
 +3.3V_SWD
-Text Label 4000 2500 2    60   ~ 12
-+3.3V_USB
 Connection ~ 1250 1800
 Connection ~ 1350 1800
 Wire Wire Line
 	1250 1700 1250 1900
 Wire Wire Line
 	1350 1800 1350 1700
-Wire Wire Line
-	1250 1800 1950 1800
 Wire Wire Line
 	1950 1100 1950 1500
 Wire Wire Line
@@ -396,9 +370,9 @@ Wire Wire Line
 Wire Wire Line
 	1650 1100 2950 1100
 Wire Wire Line
-	1350 5200 1450 5200
+	1400 5400 1500 5400
 Wire Wire Line
-	1450 5200 1450 5650
+	1500 5400 1500 5850
 Wire Wire Line
 	1800 4000 2750 4000
 Wire Wire Line
@@ -465,8 +439,6 @@ Wire Wire Line
 Wire Wire Line
 	2550 7000 2750 7000
 Wire Wire Line
-	4300 2800 4300 2850
-Wire Wire Line
 	4400 4400 7100 4400
 Wire Wire Line
 	4400 4500 7100 4500
@@ -523,9 +495,7 @@ Wire Wire Line
 Wire Wire Line
 	6750 4200 7100 4200
 Wire Wire Line
-	4600 3200 4800 3200
-Wire Wire Line
-	6900 3300 7100 3300
+	6850 3300 7100 3300
 Wire Wire Line
 	7100 3200 6950 3200
 Wire Wire Line
@@ -548,29 +518,17 @@ Wire Wire Line
 Wire Wire Line
 	1800 3200 2750 3200
 Wire Wire Line
-	1350 5000 1600 5000
+	1650 5300 1400 5300
 Wire Wire Line
-	1600 5100 1350 5100
+	1400 5500 1650 5500
 Wire Wire Line
-	1350 5300 1600 5300
+	1650 5600 1400 5600
 Wire Wire Line
-	1600 5400 1350 5400
-Wire Wire Line
-	1350 5500 1600 5500
+	1400 5700 1650 5700
 Wire Wire Line
 	1800 3300 2750 3300
-Wire Wire Line
-	4600 2500 4600 3200
-Wire Wire Line
-	6950 3200 6950 2500
-Text Label 6750 2400 2    60   ~ 12
+Text Label 7100 2650 0    60   ~ 12
 +3.3V_ISOLATOR
-Wire Wire Line
-	4300 2600 4300 2500
-Connection ~ 4600 2500
-Connection ~ 4300 2500
-Wire Wire Line
-	6950 2500 4000 2500
 Wire Wire Line
 	4900 1200 4900 2050
 Wire Wire Line
@@ -583,10 +541,6 @@ Wire Wire Line
 	2200 2150 2200 3700
 Wire Wire Line
 	2100 2050 2100 3800
-Wire Wire Line
-	6900 2400 6900 3300
-Wire Wire Line
-	6750 2400 6900 2400
 Text Label 1800 4000 2    60   ~ 12
 TMS_SWCLK
 Text Label 1800 3500 2    60   ~ 12
@@ -633,10 +587,10 @@ NoConn ~ 1650 1500
 Text Label 6150 6700 2    60   ~ 12
 +5V_USB
 $Comp
-L PWR_FLAG #FLG07
+L PWR_FLAG #FLG06
 U 1 1 5CBC4CAA
 P 6150 7050
-F 0 "#FLG07" H 6150 7125 50  0001 C CNN
+F 0 "#FLG06" H 6150 7125 50  0001 C CNN
 F 1 "PWR_FLAG" H 6150 7200 50  0000 C CNN
 F 2 "" H 6150 7050 50  0001 C CNN
 F 3 "" H 6150 7050 50  0001 C CNN
@@ -645,4 +599,87 @@ F 3 "" H 6150 7050 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	6150 6700 6150 7050
+Text Label 4800 2800 0    60   ~ 12
++3.3V_USB
+Wire Wire Line
+	4650 3200 4800 3200
+Wire Wire Line
+	4650 2800 4650 3200
+Wire Wire Line
+	4800 2800 4650 2800
+Text Label 7100 2800 0    60   ~ 12
++3.3V_USB
+Wire Wire Line
+	6950 3200 6950 2800
+Wire Wire Line
+	6950 2800 7100 2800
+Wire Wire Line
+	7100 2650 6850 2650
+Wire Wire Line
+	6850 2650 6850 3300
+$Comp
+L LED_Small D2
+U 1 1 5CBB6602
+P 2350 1800
+F 0 "D2" H 2300 1925 50  0000 L CNN
+F 1 "+5V_USB_LED" H 2100 1700 50  0000 L CNN
+F 2 "LEDs:LED_0603_HandSoldering" V 2350 1800 50  0001 C CNN
+F 3 "" V 2350 1800 50  0001 C CNN
+	1    2350 1800
+	1    0    0    -1  
+$EndComp
+$Comp
+L R R1
+U 1 1 5CBB6D89
+P 2600 1600
+F 0 "R1" V 2680 1600 50  0000 C CNN
+F 1 "1k" V 2600 1600 50  0000 C CNN
+F 2 "Resistors_SMD:R_0603_HandSoldering" V 2530 1600 50  0001 C CNN
+F 3 "" H 2600 1600 50  0001 C CNN
+	1    2600 1600
+	1    0    0    -1  
+$EndComp
+Connection ~ 1950 1800
+Wire Wire Line
+	2600 1800 2600 1750
+Wire Wire Line
+	2450 1800 2600 1800
+Wire Wire Line
+	2600 1450 2600 1100
+Connection ~ 2600 1100
+Wire Wire Line
+	1250 1800 2250 1800
+$Comp
+L LED_Small D1
+U 1 1 5CBC58EC
+P 2250 5800
+F 0 "D1" H 2200 5925 50  0000 L CNN
+F 1 "+3.3V_SWD_LED" H 2000 5700 50  0000 L CNN
+F 2 "LEDs:LED_0603_HandSoldering" V 2250 5800 50  0001 C CNN
+F 3 "" V 2250 5800 50  0001 C CNN
+	1    2250 5800
+	1    0    0    -1  
+$EndComp
+$Comp
+L R R2
+U 1 1 5CBC58F2
+P 2750 5800
+F 0 "R2" V 2830 5800 50  0000 C CNN
+F 1 "330" V 2750 5800 50  0000 C CNN
+F 2 "Resistors_SMD:R_0603_HandSoldering" V 2680 5800 50  0001 C CNN
+F 3 "" H 2750 5800 50  0001 C CNN
+	1    2750 5800
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	2150 5800 1500 5800
+Connection ~ 1500 5800
+Wire Wire Line
+	2350 5800 2600 5800
+Text Label 3000 5800 0    60   ~ 12
++3.3V_SWD
+Wire Wire Line
+	2900 5800 3000 5800
+Wire Wire Line
+	1650 5200 1400 5200
 $EndSCHEMATC
