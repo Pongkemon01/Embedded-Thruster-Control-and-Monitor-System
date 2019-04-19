@@ -38,9 +38,9 @@ EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
 Sheet 1 6
-Title ""
-Date ""
-Rev ""
+Title "Embedded_thruster_Control_And_Monitor_system"
+Date "2019-04-19"
+Rev "0.90"
 Comp ""
 Comment1 ""
 Comment2 ""
