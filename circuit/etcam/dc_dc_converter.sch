@@ -40,7 +40,7 @@ encoding utf-8
 Sheet 6 6
 Title "DC-DC_converter"
 Date "2019-04-19"
-Rev "0.9.1"
+Rev "0.9.2"
 Comp ""
 Comment1 ""
 Comment2 ""
@@ -412,17 +412,6 @@ F 3 "" H 7950 4350 50  0001 C CNN
 	1    7950 4350
 	1    0    0    -1  
 $EndComp
-$Comp
-L GND #PWR44
-U 1 1 5CBC06D6
-P 7950 4800
-F 0 "#PWR44" H 7950 4550 50  0001 C CNN
-F 1 "GND" H 7950 4650 50  0000 C CNN
-F 2 "" H 7950 4800 50  0001 C CNN
-F 3 "" H 7950 4800 50  0001 C CNN
-	1    7950 4800
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	7950 4500 7950 4550
 Wire Wire Line
@@ -432,4 +421,15 @@ Wire Wire Line
 	7950 3900 7950 4200
 Wire Wire Line
 	5150 3750 5150 4200
+$Comp
+L GNDPWR #PWR?
+U 1 1 5CBACBD9
+P 7950 4800
+F 0 "#PWR?" H 7950 4600 50  0001 C CNN
+F 1 "GNDPWR" H 7950 4670 50  0000 C CNN
+F 2 "" H 7950 4750 50  0001 C CNN
+F 3 "" H 7950 4750 50  0001 C CNN
+	1    7950 4800
+	-1   0    0    -1  
+$EndComp
 $EndSCHEMATC
