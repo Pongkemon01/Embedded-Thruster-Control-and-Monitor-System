@@ -3,56 +3,43 @@
 #include "FreeRTOS.h"
 #include "task.h"
 
-void SystemClock_Config(void);
-static void Error_Handler(void);
+static void vConfigSystemClock( void );
+static void vError_Handler( void );
 
-void vTestTask( void *pvParameters );
+static void vTestTask( void *pvParameters );
 
-int main(void)
+int main( void )
 {
-    GPIO_InitTypeDef GPIO_InitStruct;
+    if( HAL_Init() != HAL_OK )
+    {
+        vError_Handler();
+    }
 
-    HAL_Init();
     HAL_NVIC_SetPriorityGrouping( NVIC_PRIORITYGROUP_3 );
 
-    SystemClock_Config();
+    vConfigSystemClock();
 
-    __HAL_RCC_GPIOA_CLK_ENABLE();
-
-    GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-    GPIO_InitStruct.Pull = GPIO_PULLUP;
-    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-
-    GPIO_InitStruct.Pin = GPIO_PIN_5;
-
-    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-
-    if( xTaskCreate( vTestTask, "TestTask", 250, NULL, 1, NULL ) != pdPASS )
+    if( xTaskCreate( vTestTask, "test_task", 250U, NULL, 1U, NULL ) != pdPASS )
     {
-        Error_Handler();
+        vError_Handler();
     }
 
     vTaskStartScheduler();
 
-    while(1)
-    {
-    }
+    //the program should never reach this point
+    vError_Handler();
+
+    return 0;
 }
 
-void vTestTask( void *pvParameters )
+static void vTestTask( void *pvParameters )
 {
-    TickType_t xLastWakeTime;
-
-    xLastWakeTime = xTaskGetTickCount();
-
-    while( 1 )
+    for(;;)
     {
-        HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
-        vTaskDelayUntil( &xLastWakeTime, pdMS_TO_TICKS( 1000U ) );
     }
 }
 
-void SystemClock_Config(void)
+static void vConfigSystemClock(void)
 {
     RCC_ClkInitTypeDef RCC_ClkInitStruct;
     RCC_OscInitTypeDef RCC_OscInitStruct;
@@ -66,7 +53,7 @@ void SystemClock_Config(void)
 
     if(HAL_RCC_OscConfig(&RCC_OscInitStruct) !=  HAL_OK)
     {
-        Error_Handler();
+        vError_Handler();
     }
 
     RCC_ClkInitStruct.ClockType = (RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2);
@@ -77,13 +64,13 @@ void SystemClock_Config(void)
 
     if(HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
     {
-        Error_Handler();
+        vError_Handler();
     }
 }
 
-static void Error_Handler(void)
+static void vError_Handler( void )
 {
-    while(1)
+    for(;;)
     {
     }
 }
