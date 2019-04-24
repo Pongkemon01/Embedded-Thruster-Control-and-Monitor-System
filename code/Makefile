@@ -6,8 +6,11 @@ INCLUDE_DIR=include
 LDSCRIPT_DIR=ldscript
 BIN_DIR=bin
 
+STM32_SRC_DIR=stm32_src
 F3_HAL_SRC_DIR=hal_src
+
 CMSIS_INCLUDE_DIR=${STM32_CMSIS_DIR}/include
+STM32_INCLUDE_DIR=stm32_include
 F3_CMSIS_INCLUDE_DIR=${STM32F3_CMSIS_DIR}/include
 F3_HAL_INCLUDE_DIR=${STM32F3_HAL_DIR}/include
 
@@ -15,16 +18,17 @@ FREERTOS_SRC_DIR=freertos_src
 FREERTOS_INCLUDE_DIR=${FREERTOS_DIR}/include
 FREERTOS_PORT_INCLUDE_DIR=${FREERTOS_DIR}/portable/GCC/ARM_CM4F
 
-SRC=$(wildcard $(SRC_DIR)/*)
+SRC=$(wildcard $(SRC_DIR)/*.c)
 LDSCRIPT=STM32F303RETx_FLASH.ld
 BIN=$(BIN_DIR)/$(TARGET).bin
 ELF=$(BIN_DIR)/$(TARGET).elf
 
 HAL_SRC=$(wildcard $(F3_HAL_SRC_DIR)/*.c)
+STM32_SRC=$(wildcard $(STM32_SRC_DIR)/*.s $(STM32_SRC_DIR)/*.c)
 FREERTOS_SRC=$(wildcard $(FREERTOS_SRC_DIR)/*.c)
 
 LDFLAGS=-Wl,--gc-sections,-lgcc,-lc,-lnosys
-CPPFLAGS=-I $(INCLUDE_DIR) -I $(CMSIS_INCLUDE_DIR) -I $(F3_CMSIS_INCLUDE_DIR) -I $(F3_HAL_INCLUDE_DIR) -I $(FREERTOS_INCLUDE_DIR) -I $(FREERTOS_PORT_INCLUDE_DIR)
+CPPFLAGS=-I $(INCLUDE_DIR) -I $(CMSIS_INCLUDE_DIR) -I $(STM32_INCLUDE_DIR) -I $(F3_CMSIS_INCLUDE_DIR) -I $(F3_HAL_INCLUDE_DIR) -I $(FREERTOS_INCLUDE_DIR) -I $(FREERTOS_PORT_INCLUDE_DIR)
 CFLAGS=-g -Wall -Os -ffunction-sections -fdata-sections
 GDBFLAGS=--tui
 
@@ -38,7 +42,7 @@ $(BIN): $(ELF)
 	arm-none-eabi-objcopy -O binary $< $@
 
 $(ELF): $(SRC)
-	arm-none-eabi-gcc $(CFLAGS) $(MCU) $(CPPFLAGS) -T $(LDSCRIPT) -L $(LDSCRIPT_DIR) $(LDFLAGS) $(HAL_SRC) $(FREERTOS_SRC) $^ -o $@
+	arm-none-eabi-gcc $(CFLAGS) $(MCU) $(CPPFLAGS) -T $(LDSCRIPT) -L $(LDSCRIPT_DIR) $(LDFLAGS) $(STM32_SRC) $(HAL_SRC) $(FREERTOS_SRC) $^ -o $@
 
 flash: $(BIN)
 	st-flash write $< 0x8000000

@@ -1,9 +1,1 @@
 *.swp
-tags
-
-bin/
-freertos_src/
-hal_src/
-ldscript/
-
-*stm32*
