@@ -2,16 +2,24 @@
 
 #include "task.h"
 
+#define ku_THROTTLE_COMMAND_SIZE    16U
+#define ku_THUSTER_NUMBER           8U
+
 UART_HandleTypeDef x_uart_command_handle;
 
 SemaphoreHandle_t x_semaphore_command_handle;
 
 static void v_task_command_receiver( void *pv_parameters );
+static void v_task_command_parser( void *pv_parameters );
 
 static void v_system_init( void );
 static void v_led_init( void );
 static void v_system_clock_config( void );
 static void v_error_handler( void );
+
+static SemaphoreHandle_t x_semaphore_throttle_command_handle;
+static uint8_t au_throttle_command[ku_THROTTLE_COMMAND_SIZE];
+static uint16_t aus_throttle[ku_THUSTER_NUMBER];
 
 int main( void )
 {
@@ -20,6 +28,13 @@ int main( void )
     x_semaphore_command_handle = xSemaphoreCreateBinary();
 
     if( x_semaphore_command_handle == NULL )
+    {
+        v_error_handler();
+    }
+
+    x_semaphore_throttle_command_handle = xSemaphoreCreateBinary();
+
+    if( x_semaphore_throttle_command_handle == NULL )
     {
         v_error_handler();
     }
@@ -51,6 +66,11 @@ int main( void )
         v_error_handler();
     }
 
+    if( xTaskCreate( v_task_command_parser, "command_parser_task", 250U, NULL, 1U, NULL ) != pdPASS )
+    {
+        v_error_handler();
+    }
+
     vTaskStartScheduler();
 
     //the program should never reach this point
@@ -62,7 +82,6 @@ int main( void )
 static void v_task_command_receiver( void *pv_parameters )
 {
     static uint8_t u_command;
-    static uint8_t au_throttle_command[16U];
 
     for(;;)
     {
@@ -75,15 +94,35 @@ static void v_task_command_receiver( void *pv_parameters )
 
         if( u_command == 0x01U )
         {
-            if( HAL_UART_Receive_DMA( &x_uart_command_handle, (uint8_t *)au_throttle_command, 16U ) != HAL_OK )
+            if( HAL_UART_Receive_DMA( &x_uart_command_handle, au_throttle_command, ku_THROTTLE_COMMAND_SIZE ) != HAL_OK )
             {
                 v_error_handler();
             }
 
             xSemaphoreTake( x_semaphore_command_handle, portMAX_DELAY );
-            
-            HAL_GPIO_TogglePin( GPIOA, GPIO_PIN_5 );
+
+            if ( xSemaphoreGive( x_semaphore_throttle_command_handle ) != pdTRUE )
+            {
+                v_error_handler();
+            }
         }
+    }
+}
+
+static void v_task_command_parser( void *pv_parameters )
+{
+    static uint8_t i;
+
+    for(;;)
+    {
+        xSemaphoreTake( x_semaphore_throttle_command_handle, portMAX_DELAY );
+        
+        for( i = 0U ; i < ku_THROTTLE_COMMAND_SIZE ; i = i + 2 )
+        {
+            aus_throttle[i / 2U] = ( uint16_t )( au_throttle_command[i] | ( au_throttle_command[i + 1] << 8U ) );
+        }
+
+        HAL_GPIO_TogglePin( GPIOA, GPIO_PIN_5 );
     }
 }
 

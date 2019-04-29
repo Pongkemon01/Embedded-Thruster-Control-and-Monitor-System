@@ -8,7 +8,12 @@ void HAL_UART_RxCpltCallback( UART_HandleTypeDef *huart )
 {
     BaseType_t x_higher_priority_task_woken = pdFALSE;
 
-    xSemaphoreGiveFromISR( x_semaphore_command_handle, &x_higher_priority_task_woken );
+    if( xSemaphoreGiveFromISR( x_semaphore_command_handle, &x_higher_priority_task_woken ) != pdTRUE )
+    {
+        for(;;)
+        {
+        }
+    }
 
     portYIELD_FROM_ISR( x_higher_priority_task_woken );
 }
