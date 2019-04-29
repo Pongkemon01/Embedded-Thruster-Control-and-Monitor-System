@@ -28,15 +28,11 @@ void HAL_UART_MspInit( UART_HandleTypeDef *x_uart_handle )
 
     if( HAL_DMA_DeInit( &x_dma_handle ) != HAL_OK )
     {
-        for(;;)
-        {
-        }
+        v_error_handler();
     }
     if( HAL_DMA_Init( &x_dma_handle ) != HAL_OK )
     {
-        for(;;)
-        {
-        }
+        v_error_handler();
     }
 
     __HAL_LINKDMA( x_uart_handle, hdmarx, x_dma_handle );
