@@ -1,8 +1,7 @@
 #include "main.h"
 
-extern UART_HandleTypeDef x_uart_command_handle;
-
-extern SemaphoreHandle_t x_semaphore_command_handle;
+extern UART_HandleTypeDef   x_uart_command_handle;
+extern SemaphoreHandle_t    x_semaphore_command_handle;
 
 void HAL_UART_RxCpltCallback( UART_HandleTypeDef *huart )
 {
