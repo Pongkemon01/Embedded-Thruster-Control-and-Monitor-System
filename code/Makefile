@@ -51,7 +51,7 @@ debug: $(ELF)
 	arm-none-eabi-gdb $(GDBFLAGS) $(ELF)
 
 tag:
-	ctags -R .
+	ctags -R . $(CMSIS_INCLUDE_DIR) $(F3_CMSIS_INCLUDE_DIR) $(F3_HAL_INCLUDE_DIR) $(FREERTOS_INCLUDE_DIR) $(FREERTOS_PORT_INCLUDE_DIR)
 
 clean:
 	rm $(BIN) $(ELF)
