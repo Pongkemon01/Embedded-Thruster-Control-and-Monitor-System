@@ -2,51 +2,51 @@
 
 #include "task.h"
 
-UART_HandleTypeDef x_command_uart_handle;
+UART_HandleTypeDef x_uart_command_handle;
 
-SemaphoreHandle_t x_command_semphore;
+SemaphoreHandle_t x_semaphore_command_handle;
 
-static void v_command_receiver_task( void *pv_parameters );
+static void v_task_command_receiver( void *pv_parameters );
 
 static void v_system_init( void );
-static void v_init_led( void );
-static void v_config_system_clock( void );
+static void v_led_init( void );
+static void v_system_clock_config( void );
 static void v_error_handler( void );
 
 int main( void )
 {
     v_system_init();
 
-    x_command_semphore = xSemaphoreCreateBinary();
+    x_semaphore_command_handle = xSemaphoreCreateBinary();
 
-    if( x_command_semphore == NULL )
+    if( x_semaphore_command_handle == NULL )
     {
         v_error_handler();
     }
 
-    x_command_uart_handle.Instance = USART2;
-    x_command_uart_handle.Init.BaudRate = 9600U;
-    x_command_uart_handle.Init.WordLength = UART_WORDLENGTH_8B;
-    x_command_uart_handle.Init.StopBits = UART_STOPBITS_1;
-    x_command_uart_handle.Init.Parity = UART_PARITY_NONE;
-    x_command_uart_handle.Init.Mode = UART_MODE_TX_RX;
-    x_command_uart_handle.Init.HwFlowCtl = UART_HWCONTROL_NONE;
-    x_command_uart_handle.Init.OverSampling = UART_OVERSAMPLING_16;
-    x_command_uart_handle.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
+    x_uart_command_handle.Instance = USART2;
+    x_uart_command_handle.Init.BaudRate = 9600U;
+    x_uart_command_handle.Init.WordLength = UART_WORDLENGTH_8B;
+    x_uart_command_handle.Init.StopBits = UART_STOPBITS_1;
+    x_uart_command_handle.Init.Parity = UART_PARITY_NONE;
+    x_uart_command_handle.Init.Mode = UART_MODE_TX_RX;
+    x_uart_command_handle.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+    x_uart_command_handle.Init.OverSampling = UART_OVERSAMPLING_16;
+    x_uart_command_handle.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
 
-    x_command_uart_handle.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
+    x_uart_command_handle.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
 
-    if( HAL_UART_DeInit( &x_command_uart_handle ) != HAL_OK )
+    if( HAL_UART_DeInit( &x_uart_command_handle ) != HAL_OK )
     {
         v_error_handler();
     }
 
-    if( HAL_UART_Init( &x_command_uart_handle ) != HAL_OK )
+    if( HAL_UART_Init( &x_uart_command_handle ) != HAL_OK )
     {
         v_error_handler();
     }
 
-    if( xTaskCreate( v_command_receiver_task, "command_receiver_task", 250U, NULL, 1U, NULL ) != pdPASS )
+    if( xTaskCreate( v_task_command_receiver, "command_receiver_task", 250U, NULL, 1U, NULL ) != pdPASS )
     {
         v_error_handler();
     }
@@ -59,28 +59,28 @@ int main( void )
     return 0;
 }
 
-static void v_command_receiver_task( void *pv_parameters )
+static void v_task_command_receiver( void *pv_parameters )
 {
     static uint8_t u_command;
     static uint8_t au_throttle_command[16U];
 
     for(;;)
     {
-        if( HAL_UART_Receive_DMA( &x_command_uart_handle, &u_command, 1U ) != HAL_OK )
+        if( HAL_UART_Receive_DMA( &x_uart_command_handle, &u_command, 1U ) != HAL_OK )
         {
             v_error_handler();
         }
 
-        xSemaphoreTake( x_command_semphore, portMAX_DELAY );
+        xSemaphoreTake( x_semaphore_command_handle, portMAX_DELAY );
 
         if( u_command == 0x01U )
         {
-            if( HAL_UART_Receive_DMA( &x_command_uart_handle, (uint8_t *)au_throttle_command, 16U ) != HAL_OK )
+            if( HAL_UART_Receive_DMA( &x_uart_command_handle, (uint8_t *)au_throttle_command, 16U ) != HAL_OK )
             {
                 v_error_handler();
             }
 
-            xSemaphoreTake( x_command_semphore, portMAX_DELAY );
+            xSemaphoreTake( x_semaphore_command_handle, portMAX_DELAY );
             
             HAL_GPIO_TogglePin( GPIOA, GPIO_PIN_5 );
         }
@@ -96,12 +96,12 @@ static void v_system_init( void )
 
     HAL_NVIC_SetPriorityGrouping( NVIC_PRIORITYGROUP_4 );
 
-    v_config_system_clock();
+    v_system_clock_config();
 
-    v_init_led();
+    v_led_init();
 }
 
-static void v_init_led( void )
+static void v_led_init( void )
 {
     GPIO_InitTypeDef x_gpio_init_struct;
 
@@ -115,7 +115,7 @@ static void v_init_led( void )
     HAL_GPIO_Init( GPIOA, &x_gpio_init_struct );
 }
 
-static void v_config_system_clock( void )
+static void v_system_clock_config( void )
 {
     RCC_OscInitTypeDef x_osc_init_struct;
     RCC_ClkInitTypeDef x_clk_init_struct;

@@ -6,8 +6,8 @@
 #include "FreeRTOS.h"
 #include "semphr.h"
 
-extern UART_HandleTypeDef x_command_uart_handle;
+extern UART_HandleTypeDef x_uart_command_handle;
 
-extern SemaphoreHandle_t x_command_semphore;
+extern SemaphoreHandle_t x_semaphore_command_handle;
 
 #endif
