@@ -1,6 +1,6 @@
 #include "main.h"
 
-void HAL_UART_MspInit( UART_HandleTypeDef *x_uart_handle )
+void HAL_UART_MspInit( UART_HandleTypeDef *px_uart_handle )
 {
     static DMA_HandleTypeDef    x_dma_handle;
     GPIO_InitTypeDef            x_gpio_init_struct;
@@ -35,7 +35,7 @@ void HAL_UART_MspInit( UART_HandleTypeDef *x_uart_handle )
         v_error_handler();
     }
 
-    __HAL_LINKDMA( x_uart_handle, hdmarx, x_dma_handle );
+    __HAL_LINKDMA( px_uart_handle, hdmarx, x_dma_handle );
 
     HAL_NVIC_SetPriority( DMA1_Channel6_IRQn, 5, 0);
     HAL_NVIC_EnableIRQ( DMA1_Channel6_IRQn );
