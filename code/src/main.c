@@ -11,11 +11,16 @@ SemaphoreHandle_t       x_semaphore_uart_rx_ready_handle;
 
 static void v_task_command_receiver( void *pv_parameters );
 static void v_task_command_parser( void *pv_parameters );
+static void v_task_make_pulse( void *pv_parameters );
+
+static uint8_t u_generate_crc( uint16_t us_pulse );
 
 static SemaphoreHandle_t    x_semaphore_throttle_command_handle;
 static SemaphoreHandle_t    x_semaphore_throttle_command_ready_handle;
+static SemaphoreHandle_t    x_semaphore_throttle_handle;
 static uint8_t              au_throttle_command[ku_THROTTLE_COMMAND_SIZE];
 static uint16_t             aus_throttle[ku_THUSTER_NUMBER];
+static uint16_t             aus_pulse[ku_THUSTER_NUMBER];
 
 int main( void )
 {
@@ -24,8 +29,12 @@ int main( void )
     x_semaphore_uart_rx_ready_handle =              xSemaphoreCreateBinary();
     x_semaphore_throttle_command_ready_handle =     xSemaphoreCreateBinary();
     x_semaphore_throttle_command_handle =           xSemaphoreCreateMutex();
+    x_semaphore_throttle_handle =                   xSemaphoreCreateMutex();
 
-    if( x_semaphore_uart_rx_ready_handle == NULL || x_semaphore_throttle_command_ready_handle == NULL || x_semaphore_throttle_command_handle == NULL )
+    if( x_semaphore_uart_rx_ready_handle == NULL ||
+        x_semaphore_throttle_command_ready_handle == NULL ||
+        x_semaphore_throttle_command_handle == NULL ||
+        x_semaphore_throttle_handle == NULL )
     {
         v_error_handler();
     }
@@ -50,11 +59,15 @@ int main( void )
         v_error_handler();
     }
 
-    if( xTaskCreate( v_task_command_receiver, "command_receiver_task", 250U, NULL, 2U, NULL ) != pdPASS )
+    if( xTaskCreate( v_task_command_receiver, "command_receiver_task", 250U, NULL, 3U, NULL ) != pdPASS )
     {
         v_error_handler();
     }
     if( xTaskCreate( v_task_command_parser, "command_parser_task", 250U, NULL, 1U, NULL ) != pdPASS )
+    {
+        v_error_handler();
+    }
+    if( xTaskCreate( v_task_make_pulse, "make_pulse_task", 250U, NULL, 2U, NULL ) != pdPASS )
     {
         v_error_handler();
     }
@@ -106,7 +119,6 @@ static void v_task_command_receiver( void *pv_parameters )
 static void v_task_command_parser( void *pv_parameters )
 {
     static uint8_t au_copy_throttle_command[ku_THROTTLE_COMMAND_SIZE];
-    static uint8_t i;
 
     for(;;)
     {
@@ -119,12 +131,63 @@ static void v_task_command_parser( void *pv_parameters )
         {
             v_error_handler();
         }
+
+        xSemaphoreTake( x_semaphore_throttle_handle, portMAX_DELAY );
         
-        for( i = 0U ; i < ku_THROTTLE_COMMAND_SIZE ; i = i + 2 )
+        for( uint8_t i = 0U ; i < ku_THROTTLE_COMMAND_SIZE ; i = i + 2 )
         {
             aus_throttle[i / 2U] = ( uint16_t )( au_copy_throttle_command[i] | ( au_copy_throttle_command[i + 1] << 8U ) );
         }
 
-        HAL_GPIO_TogglePin( GPIOA, GPIO_PIN_5 );
+        if( xSemaphoreGive( x_semaphore_throttle_handle ) != pdTRUE )
+        {
+            v_error_handler();
+        }
     }
+}
+
+static void v_task_make_pulse( void *pv_parameters )
+{
+    TickType_t x_last_wake_time;
+
+    x_last_wake_time = xTaskGetTickCount();
+
+    for(;;)
+    {
+        xSemaphoreTake( x_semaphore_throttle_handle, portMAX_DELAY );
+
+        for( uint8_t i = 0U ; i < ku_THUSTER_NUMBER ; i++ )
+        {
+            //TODO: add telemetry bit
+            aus_pulse[i] = aus_throttle[i];
+
+            aus_pulse[i] |= (uint16_t)( u_generate_crc( aus_pulse[i] ) << 12U );
+        }
+
+        if( xSemaphoreGive( x_semaphore_throttle_handle ) != pdTRUE )
+        {
+            v_error_handler();
+        }
+
+        if( ( aus_pulse[0] & 0x0800 ) == 0 )
+        {
+            HAL_GPIO_TogglePin( GPIOA, GPIO_PIN_5 );
+        }
+
+        vTaskDelayUntil( &x_last_wake_time, pdMS_TO_TICKS( 33U ) );
+    }
+}
+
+static uint8_t u_generate_crc( uint16_t us_pulse )
+{
+    uint8_t u_crc = 0U;
+
+    for( uint8_t i = 0U ; i < 3U ; i++ )
+    {
+        u_crc ^= us_pulse & 0x000FU;
+
+        us_pulse = us_pulse >> 4;
+    }
+
+    return u_crc;
 }
