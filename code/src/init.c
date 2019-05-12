@@ -39,8 +39,7 @@ void v_system_clock_config( void )
     x_osc_init_struct.PLL.PLLState =            RCC_PLL_ON;
     x_osc_init_struct.PLL.PLLSource =           RCC_PLLSOURCE_HSI;
     x_osc_init_struct.PLL.PREDIV =              RCC_PREDIV_DIV2;
-    x_osc_init_struct.PLL.PLLMUL =              RCC_PLL_MUL16;
-    x_osc_init_struct.HSICalibrationValue =     RCC_HSICALIBRATION_DEFAULT;
+    x_osc_init_struct.PLL.PLLMUL =              RCC_PLL_MUL15;
 
     if( HAL_RCC_OscConfig( &x_osc_init_struct ) !=  HAL_OK )
     {
