@@ -24,8 +24,8 @@ static SemaphoreHandle_t    x_semaphore_throttle_command_ready_handle;
 static SemaphoreHandle_t    x_semaphore_throttle_handle;
 static SemaphoreHandle_t    x_semaphore_pulse_handle;
 static uint8_t              au_throttle_command[ku_THROTTLE_COMMAND_SIZE];
-static uint8_t              au_pulse[ku_THUSTER_NUMBER][ku_DSHOT_COMMAND_SIZE + 1U ];
-static uint8_t              au_pulse_current[ku_THUSTER_NUMBER][ku_DSHOT_COMMAND_SIZE + 1U ];
+static uint8_t              au_pulse[ku_THUSTER_NUMBER][ku_DSHOT_COMPENSTATED_COMMAND_SIZE];
+static uint8_t              au_pulse_current[ku_THUSTER_NUMBER][ku_DSHOT_COMPENSTATED_COMMAND_SIZE];
 static uint16_t             aus_throttle[ku_THUSTER_NUMBER];
 
 int main( void )
@@ -230,7 +230,7 @@ static void v_task_make_pulse( void *pv_parameters )
                 }
             }
             
-            au_pulse[i][ku_DSHOT_COMMAND_SIZE] = 0U;
+            au_pulse[i][ku_DSHOT_COMPENSTATED_COMMAND_SIZE - 1U ] = 0U;
         }
 
         if( xSemaphoreGive( x_semaphore_pulse_handle ) != pdTRUE )
@@ -252,14 +252,14 @@ static void v_task_thruster( void *pv_parameters )
     {
         xSemaphoreTake( x_semaphore_pulse_handle, portMAX_DELAY );
         
-        memcpy( ( void * ) au_pulse_current, ( void * ) au_pulse, ku_THUSTER_NUMBER * ( ku_DSHOT_COMMAND_SIZE + 1U ) );
+        memcpy( ( void * ) au_pulse_current, ( void * ) au_pulse, ku_THUSTER_NUMBER * ku_DSHOT_COMPENSTATED_COMMAND_SIZE );
 
         if( xSemaphoreGive( x_semaphore_pulse_handle ) != pdTRUE )
         {
             v_error_handler();
         }
 
-        if( HAL_TIM_PWM_Start_DMA( &x_tim3_handle, TIM_CHANNEL_3, ( uint32_t * )au_pulse_current[2U], ku_DSHOT_COMMAND_SIZE + 1U ) != HAL_OK )
+        if( HAL_TIM_PWM_Start_DMA( &x_tim3_handle, TIM_CHANNEL_3, ( uint32_t * )au_pulse_current[2U], ku_DSHOT_COMPENSTATED_COMMAND_SIZE ) != HAL_OK )
         {
             v_error_handler();
         }
