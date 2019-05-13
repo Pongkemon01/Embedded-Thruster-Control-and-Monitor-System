@@ -271,7 +271,7 @@ static void v_task_thruster( void *pv_parameters )
             v_error_handler();
         }
         
-        vTaskDelayUntil( &x_last_wake_time, pdMS_TO_TICKS( 33U ) );
+        vTaskDelayUntil( &x_last_wake_time, pdMS_TO_TICKS( 1U ) );
     }
 }
 
