@@ -36,7 +36,7 @@ int main( void )
     v_system_init();
 
     x_semaphore_uart_rx_ready_handle =              xSemaphoreCreateBinary();
-    x_semaphore_tim3_ch3_pulse_complete_handle =        xSemaphoreCreateBinary();
+    x_semaphore_tim3_ch3_pulse_complete_handle =    xSemaphoreCreateBinary();
     x_semaphore_tim4_ch1_pulse_complete_handle =    xSemaphoreCreateBinary();
     x_semaphore_tim4_ch2_pulse_complete_handle =    xSemaphoreCreateBinary();
     x_semaphore_throttle_command_ready_handle =     xSemaphoreCreateBinary();
@@ -52,26 +52,6 @@ int main( void )
         x_semaphore_throttle_command_handle == NULL ||
         x_semaphore_throttle_handle == NULL ||
         x_semaphore_pulse_handle == NULL )
-    {
-        v_error_handler();
-    }
-
-    x_uart_command_handle.Instance =                        USART2;
-    x_uart_command_handle.Init.BaudRate =                   9600U;
-    x_uart_command_handle.Init.WordLength =                 UART_WORDLENGTH_8B;
-    x_uart_command_handle.Init.StopBits =                   UART_STOPBITS_1;
-    x_uart_command_handle.Init.Parity =                     UART_PARITY_NONE;
-    x_uart_command_handle.Init.Mode =                       UART_MODE_TX_RX;
-    x_uart_command_handle.Init.HwFlowCtl =                  UART_HWCONTROL_NONE;
-    x_uart_command_handle.Init.OverSampling =               UART_OVERSAMPLING_16;
-    x_uart_command_handle.Init.OneBitSampling =             UART_ONE_BIT_SAMPLE_DISABLE;
-    x_uart_command_handle.AdvancedInit.AdvFeatureInit =     UART_ADVFEATURE_NO_INIT;
-
-    if( HAL_UART_DeInit( &x_uart_command_handle ) != HAL_OK )
-    {
-        v_error_handler();
-    }
-    if( HAL_UART_Init( &x_uart_command_handle ) != HAL_OK )
     {
         v_error_handler();
     }

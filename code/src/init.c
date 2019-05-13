@@ -2,6 +2,11 @@
 
 #include "main.h"
 
+extern UART_HandleTypeDef x_uart_command_handle;
+
+static void v_uart_init( void );
+static void v_system_clock_config( void );
+
 void v_system_init( void )
 {
     if( HAL_Init() != HAL_OK )
@@ -12,9 +17,34 @@ void v_system_init( void )
     HAL_NVIC_SetPriorityGrouping( NVIC_PRIORITYGROUP_4 );
 
     v_system_clock_config();
+
+    v_uart_init();
 }
 
-void v_system_clock_config( void )
+static void v_uart_init( void )
+{
+    x_uart_command_handle.Instance =                        USART2;
+    x_uart_command_handle.Init.BaudRate =                   9600U;
+    x_uart_command_handle.Init.WordLength =                 UART_WORDLENGTH_8B;
+    x_uart_command_handle.Init.StopBits =                   UART_STOPBITS_1;
+    x_uart_command_handle.Init.Parity =                     UART_PARITY_NONE;
+    x_uart_command_handle.Init.Mode =                       UART_MODE_TX_RX;
+    x_uart_command_handle.Init.HwFlowCtl =                  UART_HWCONTROL_NONE;
+    x_uart_command_handle.Init.OverSampling =               UART_OVERSAMPLING_16;
+    x_uart_command_handle.Init.OneBitSampling =             UART_ONE_BIT_SAMPLE_DISABLE;
+    x_uart_command_handle.AdvancedInit.AdvFeatureInit =     UART_ADVFEATURE_NO_INIT;
+
+    if( HAL_UART_DeInit( &x_uart_command_handle ) != HAL_OK )
+    {
+        v_error_handler();
+    }
+    if( HAL_UART_Init( &x_uart_command_handle ) != HAL_OK )
+    {
+        v_error_handler();
+    }
+}
+
+static void v_system_clock_config( void )
 {
     RCC_OscInitTypeDef      x_osc_init_struct;
     RCC_ClkInitTypeDef      x_clk_init_struct;
