@@ -1,6 +1,7 @@
 #include "init.h"
 
 #include "main.h"
+#include "task_command.h"
 
 extern UART_HandleTypeDef   x_uart_command_handle;
 extern TIM_HandleTypeDef    x_tim3_handle,
