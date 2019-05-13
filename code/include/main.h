@@ -6,12 +6,8 @@
 #include "FreeRTOS.h"
 #include "semphr.h"
 
+#include "config.h"
 #include "error_handler.h"
-
-#define ku_THUSTER_NUMBER                   8U
-#define ku_THROTTLE_COMMAND_SIZE            16U
-#define ku_DSHOT_COMMAND_SIZE               16U
-#define ku_DSHOT_COMPENSTATED_COMMAND_SIZE  ( ku_DSHOT_COMMAND_SIZE + 1U )
 
 extern TIM_HandleTypeDef    x_tim3_handle,
                             x_tim4_handle;
