@@ -7,12 +7,12 @@
 #include <string.h>
 
 UART_HandleTypeDef      x_uart_command_handle;
-TIM_HandleTypeDef       x_tim3_handle;
-TIM_HandleTypeDef       x_tim4_handle;
-SemaphoreHandle_t       x_semaphore_uart_rx_ready_handle;
-SemaphoreHandle_t       x_semaphore_tim3_pulse_complete_handle;
-SemaphoreHandle_t       x_semaphore_tim4_ch1_pulse_complete_handle;
-SemaphoreHandle_t       x_semaphore_tim4_ch2_pulse_complete_handle;
+TIM_HandleTypeDef       x_tim3_handle,
+                        x_tim4_handle;
+SemaphoreHandle_t       x_semaphore_uart_rx_ready_handle,
+                        x_semaphore_tim3_ch3_pulse_complete_handle,
+                        x_semaphore_tim4_ch1_pulse_complete_handle,
+                        x_semaphore_tim4_ch2_pulse_complete_handle;
 
 static void v_task_command_receiver( void *pv_parameters );
 static void v_task_command_parser( void *pv_parameters );
@@ -22,21 +22,21 @@ static void v_task_thruster( void *pv_parameters );
 static uint8_t u_generate_crc( uint16_t us_pulse );
 
 static TIM_OC_InitTypeDef   x_tim_channel_config_struct;
-static SemaphoreHandle_t    x_semaphore_throttle_command_handle;
-static SemaphoreHandle_t    x_semaphore_throttle_command_ready_handle;
-static SemaphoreHandle_t    x_semaphore_throttle_handle;
-static SemaphoreHandle_t    x_semaphore_pulse_handle;
-static uint8_t              au_throttle_command[ku_THROTTLE_COMMAND_SIZE];
-static uint8_t              au_pulse[ku_THUSTER_NUMBER][ku_DSHOT_COMPENSTATED_COMMAND_SIZE];
-static uint8_t              au_pulse_current[ku_THUSTER_NUMBER][ku_DSHOT_COMPENSTATED_COMMAND_SIZE];
+static SemaphoreHandle_t    x_semaphore_throttle_command_handle,
+                            x_semaphore_throttle_command_ready_handle,
+                            x_semaphore_throttle_handle,
+                            x_semaphore_pulse_handle;
 static uint16_t             aus_throttle[ku_THUSTER_NUMBER];
+static uint8_t              au_throttle_command[ku_THROTTLE_COMMAND_SIZE],
+                            au_pulse[ku_THUSTER_NUMBER][ku_DSHOT_COMPENSTATED_COMMAND_SIZE],
+                            au_pulse_current[ku_THUSTER_NUMBER][ku_DSHOT_COMPENSTATED_COMMAND_SIZE];
 
 int main( void )
 {
     v_system_init();
 
     x_semaphore_uart_rx_ready_handle =              xSemaphoreCreateBinary();
-    x_semaphore_tim3_pulse_complete_handle =        xSemaphoreCreateBinary();
+    x_semaphore_tim3_ch3_pulse_complete_handle =        xSemaphoreCreateBinary();
     x_semaphore_tim4_ch1_pulse_complete_handle =    xSemaphoreCreateBinary();
     x_semaphore_tim4_ch2_pulse_complete_handle =    xSemaphoreCreateBinary();
     x_semaphore_throttle_command_ready_handle =     xSemaphoreCreateBinary();
@@ -45,7 +45,7 @@ int main( void )
     x_semaphore_pulse_handle =                      xSemaphoreCreateMutex();
 
     if( x_semaphore_uart_rx_ready_handle == NULL ||
-        x_semaphore_tim3_pulse_complete_handle == NULL ||
+        x_semaphore_tim3_ch3_pulse_complete_handle == NULL ||
         x_semaphore_tim4_ch1_pulse_complete_handle == NULL ||
         x_semaphore_tim4_ch2_pulse_complete_handle == NULL ||
         x_semaphore_throttle_command_ready_handle == NULL ||
@@ -309,7 +309,7 @@ static void v_task_thruster( void *pv_parameters )
             v_error_handler();
         }
 
-        xSemaphoreTake( x_semaphore_tim3_pulse_complete_handle, portMAX_DELAY );
+        xSemaphoreTake( x_semaphore_tim3_ch3_pulse_complete_handle, portMAX_DELAY );
         xSemaphoreTake( x_semaphore_tim4_ch1_pulse_complete_handle, portMAX_DELAY );
         xSemaphoreTake( x_semaphore_tim4_ch2_pulse_complete_handle, portMAX_DELAY );
 

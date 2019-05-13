@@ -30,7 +30,7 @@ void v_system_clock_config( void )
         v_error_handler();
     }
 
-    x_clk_init_struct.ClockType =       (RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2);
+    x_clk_init_struct.ClockType =       ( RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2 );
     x_clk_init_struct.SYSCLKSource =    RCC_SYSCLKSOURCE_PLLCLK;
     x_clk_init_struct.AHBCLKDivider =   RCC_SYSCLK_DIV1;
     x_clk_init_struct.APB1CLKDivider =  RCC_HCLK_DIV2;
