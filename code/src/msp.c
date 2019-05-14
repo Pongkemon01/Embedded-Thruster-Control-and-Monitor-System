@@ -2,7 +2,7 @@
 
 void HAL_UART_MspInit( UART_HandleTypeDef *px_uart_handle )
 {
-    GPIO_InitTypeDef            x_gpio_init_struct;
+    GPIO_InitTypeDef x_gpio_init_struct;
 
     if( px_uart_handle->Instance == USART2 )
     {

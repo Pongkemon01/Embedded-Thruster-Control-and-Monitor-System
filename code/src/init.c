@@ -13,6 +13,7 @@ extern TIM_HandleTypeDef    x_tim3_handle,
 
 static void v_uart_init( void );
 static void v_timer_init( void );
+static void v_gpio_telemetry_selector_init( void );
 static void v_system_clock_config( void );
 
 void v_system_init( void )
@@ -28,6 +29,7 @@ void v_system_init( void )
 
     v_uart_init();
     v_timer_init();
+    v_gpio_telemetry_selector_init();
 }
 
 static void v_uart_init( void )
@@ -186,6 +188,20 @@ static void v_timer_init( void )
         v_error_handler();
     }
 
+}
+
+static void v_gpio_telemetry_selector_init( void )
+{
+    GPIO_InitTypeDef x_gpio_init_struct;
+
+    __HAL_RCC_GPIOA_CLK_ENABLE();
+
+    x_gpio_init_struct.Pin =        GPIO_PIN_4 | GPIO_PIN_5 | GPIO_PIN_6;
+    x_gpio_init_struct.Mode =       GPIO_MODE_OUTPUT_PP;
+    x_gpio_init_struct.Pull =       GPIO_PULLDOWN;
+    x_gpio_init_struct.Speed =      GPIO_SPEED_FREQ_LOW;
+
+    HAL_GPIO_Init( GPIOA, &x_gpio_init_struct );
 }
 
 static void v_system_clock_config( void )
