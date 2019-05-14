@@ -10,9 +10,13 @@
 #include "error_handler.h"
 
 extern TIM_HandleTypeDef    x_tim3_handle,
-                            x_tim4_handle;
-extern SemaphoreHandle_t    x_semaphore_tim3_ch3_pulse_complete_handle,
+                            x_tim4_handle,
+                            x_tim8_handle;
+extern SemaphoreHandle_t    x_semaphore_tim8_ch1_pulse_complete_handle,
+                            x_semaphore_tim8_ch2_pulse_complete_handle,
+                            x_semaphore_tim3_ch3_pulse_complete_handle,
+                            x_semaphore_tim8_ch4_pulse_complete_handle,
                             x_semaphore_tim4_ch1_pulse_complete_handle,
-                            x_semaphore_tim4_ch2_pulse_complete_handle;
-
+                            x_semaphore_tim4_ch2_pulse_complete_handle,
+                            x_semaphore_tim8_ch3_pulse_complete_handle;
 #endif

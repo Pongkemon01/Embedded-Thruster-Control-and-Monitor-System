@@ -5,7 +5,8 @@
 
 extern UART_HandleTypeDef   x_uart_command_handle;
 extern TIM_HandleTypeDef    x_tim3_handle,
-                            x_tim4_handle;
+                            x_tim4_handle,
+                            x_tim8_handle;
 
 static void v_uart_init( void );
 static void v_timer_init( void );
@@ -87,6 +88,23 @@ static void v_timer_init( void )
         v_error_handler();
     }
 
+    x_tim8_handle.Instance = TIM8;
+    x_tim8_handle.Init.Prescaler = ( ( uint32_t ) ( HAL_RCC_GetPCLK2Freq() / ( 150000U * 8U ) ) ) - 1U;
+    x_tim8_handle.Init.CounterMode = TIM_COUNTERMODE_UP;
+    x_tim8_handle.Init.Period = 8U - 1U;
+    x_tim8_handle.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+    x_tim8_handle.Init.RepetitionCounter = 0U;
+    x_tim8_handle.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+
+    if( HAL_TIM_PWM_DeInit( &x_tim8_handle ) != HAL_OK )
+    {
+        v_error_handler();
+    }
+    if( HAL_TIM_PWM_Init( &x_tim8_handle ) != HAL_OK )
+    {
+        v_error_handler();
+    }
+
     x_tim_channel_config_struct.OCMode =        TIM_OCMODE_PWM1;
     x_tim_channel_config_struct.Pulse =         0U;
     x_tim_channel_config_struct.OCPolarity =    TIM_OCPOLARITY_HIGH;
@@ -95,7 +113,19 @@ static void v_timer_init( void )
     x_tim_channel_config_struct.OCIdleState =   TIM_OCIDLESTATE_RESET;
     x_tim_channel_config_struct.OCNIdleState =  TIM_OCNIDLESTATE_RESET;
 
+    if( HAL_TIM_PWM_ConfigChannel( &x_tim8_handle, &x_tim_channel_config_struct, TIM_CHANNEL_1 ) != HAL_OK )
+    {
+        v_error_handler();
+    }
+    if( HAL_TIM_PWM_ConfigChannel( &x_tim8_handle, &x_tim_channel_config_struct, TIM_CHANNEL_2 ) != HAL_OK )
+    {
+        v_error_handler();
+    }
     if( HAL_TIM_PWM_ConfigChannel( &x_tim3_handle, &x_tim_channel_config_struct, TIM_CHANNEL_3 ) != HAL_OK )
+    {
+        v_error_handler();
+    }
+    if( HAL_TIM_PWM_ConfigChannel( &x_tim8_handle, &x_tim_channel_config_struct, TIM_CHANNEL_4 ) != HAL_OK )
     {
         v_error_handler();
     }
@@ -104,6 +134,10 @@ static void v_timer_init( void )
         v_error_handler();
     }
     if( HAL_TIM_PWM_ConfigChannel( &x_tim4_handle, &x_tim_channel_config_struct, TIM_CHANNEL_2 ) != HAL_OK )
+    {
+        v_error_handler();
+    }
+    if( HAL_TIM_PWM_ConfigChannel( &x_tim8_handle, &x_tim_channel_config_struct, TIM_CHANNEL_3 ) != HAL_OK )
     {
         v_error_handler();
     }
