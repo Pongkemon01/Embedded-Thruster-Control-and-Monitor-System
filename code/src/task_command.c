@@ -26,7 +26,7 @@ void v_task_command_receiver( void *pv_parameters )
 
         xSemaphoreTake( x_semaphore_uart_command_rx_ready_handle, portMAX_DELAY );
 
-        if( u_command == 0x01U )
+        if( u_command == 0xA1U )
         {
             xSemaphoreTake( x_semaphore_throttle_command_handle, portMAX_DELAY );
 
