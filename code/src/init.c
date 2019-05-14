@@ -2,8 +2,10 @@
 
 #include "main.h"
 #include "task_command.h"
+#include "task_telemetry.h"
 
-extern UART_HandleTypeDef   x_uart_command_handle;
+extern UART_HandleTypeDef   x_uart_command_handle,
+                            x_uart_telemetry_handler;
 extern TIM_HandleTypeDef    x_tim3_handle,
                             x_tim4_handle,
                             x_tim8_handle,
@@ -46,6 +48,26 @@ static void v_uart_init( void )
         v_error_handler();
     }
     if( HAL_UART_Init( &x_uart_command_handle ) != HAL_OK )
+    {
+        v_error_handler();
+    }
+
+    x_uart_telemetry_handler.Instance =                        USART1;
+    x_uart_telemetry_handler.Init.BaudRate =                   115200U;
+    x_uart_telemetry_handler.Init.WordLength =                 UART_WORDLENGTH_8B;
+    x_uart_telemetry_handler.Init.StopBits =                   UART_STOPBITS_1;
+    x_uart_telemetry_handler.Init.Parity =                     UART_PARITY_NONE;
+    x_uart_telemetry_handler.Init.Mode =                       UART_MODE_RX;
+    x_uart_telemetry_handler.Init.HwFlowCtl =                  UART_HWCONTROL_NONE;
+    x_uart_telemetry_handler.Init.OverSampling =               UART_OVERSAMPLING_16;
+    x_uart_telemetry_handler.Init.OneBitSampling =             UART_ONE_BIT_SAMPLE_DISABLE;
+    x_uart_telemetry_handler.AdvancedInit.AdvFeatureInit =     UART_ADVFEATURE_NO_INIT;
+
+    if( HAL_UART_DeInit( &x_uart_telemetry_handler ) != HAL_OK )
+    {
+        v_error_handler();
+    }
+    if( HAL_UART_Init( &x_uart_telemetry_handler ) != HAL_OK )
     {
         v_error_handler();
     }

@@ -2,43 +2,89 @@
 
 void HAL_UART_MspInit( UART_HandleTypeDef *px_uart_handle )
 {
-    static DMA_HandleTypeDef    x_dma1_ch6_handle;
     GPIO_InitTypeDef            x_gpio_init_struct;
 
-    __HAL_RCC_USART2_CLK_ENABLE();
-    __HAL_RCC_GPIOA_CLK_ENABLE();
-    __HAL_RCC_DMA1_CLK_ENABLE();
-
-    x_gpio_init_struct.Pin =        GPIO_PIN_2 | GPIO_PIN_3;
-    x_gpio_init_struct.Mode =       GPIO_MODE_AF_PP;
-    x_gpio_init_struct.Pull =       GPIO_PULLUP;
-    x_gpio_init_struct.Speed =      GPIO_SPEED_FREQ_LOW;
-    x_gpio_init_struct.Alternate =  GPIO_AF7_USART2;
-
-    HAL_GPIO_Init( GPIOA, &x_gpio_init_struct );
-
-    x_dma1_ch6_handle.Instance =                     DMA1_Channel6;
-    x_dma1_ch6_handle.Init.Direction =               DMA_PERIPH_TO_MEMORY;
-    x_dma1_ch6_handle.Init.PeriphInc =               DMA_PINC_DISABLE;
-    x_dma1_ch6_handle.Init.MemInc =                  DMA_MINC_ENABLE;
-    x_dma1_ch6_handle.Init.PeriphDataAlignment =     DMA_PDATAALIGN_BYTE;
-    x_dma1_ch6_handle.Init.MemDataAlignment =        DMA_MDATAALIGN_BYTE;
-    x_dma1_ch6_handle.Init.Mode =                    DMA_NORMAL;
-    x_dma1_ch6_handle.Init.Priority =                DMA_PRIORITY_HIGH;
-
-    if( HAL_DMA_DeInit( &x_dma1_ch6_handle ) != HAL_OK )
+    if( px_uart_handle->Instance == USART2 )
     {
-        v_error_handler();
+        static DMA_HandleTypeDef x_dma1_ch6_handle;
+
+        __HAL_RCC_USART2_CLK_ENABLE();
+        __HAL_RCC_GPIOA_CLK_ENABLE();
+        __HAL_RCC_DMA1_CLK_ENABLE();
+
+        x_gpio_init_struct.Pin =        GPIO_PIN_2 | GPIO_PIN_3;
+        x_gpio_init_struct.Mode =       GPIO_MODE_AF_PP;
+        x_gpio_init_struct.Pull =       GPIO_PULLUP;
+        x_gpio_init_struct.Speed =      GPIO_SPEED_FREQ_LOW;
+        x_gpio_init_struct.Alternate =  GPIO_AF7_USART2;
+
+        HAL_GPIO_Init( GPIOA, &x_gpio_init_struct );
+
+        x_dma1_ch6_handle.Instance =                     DMA1_Channel6;
+        x_dma1_ch6_handle.Init.Direction =               DMA_PERIPH_TO_MEMORY;
+        x_dma1_ch6_handle.Init.PeriphInc =               DMA_PINC_DISABLE;
+        x_dma1_ch6_handle.Init.MemInc =                  DMA_MINC_ENABLE;
+        x_dma1_ch6_handle.Init.PeriphDataAlignment =     DMA_PDATAALIGN_BYTE;
+        x_dma1_ch6_handle.Init.MemDataAlignment =        DMA_MDATAALIGN_BYTE;
+        x_dma1_ch6_handle.Init.Mode =                    DMA_NORMAL;
+        x_dma1_ch6_handle.Init.Priority =                DMA_PRIORITY_HIGH;
+
+        if( HAL_DMA_DeInit( &x_dma1_ch6_handle ) != HAL_OK )
+        {
+            v_error_handler();
+        }
+        if( HAL_DMA_Init( &x_dma1_ch6_handle ) != HAL_OK )
+        {
+            v_error_handler();
+        }
+
+        __HAL_LINKDMA( px_uart_handle, hdmarx, x_dma1_ch6_handle );
+
+        HAL_NVIC_SetPriority( DMA1_Channel6_IRQn, 6, 0);
+        HAL_NVIC_EnableIRQ( DMA1_Channel6_IRQn );
     }
-    if( HAL_DMA_Init( &x_dma1_ch6_handle ) != HAL_OK )
+    else if( px_uart_handle->Instance == USART1 )
     {
-        v_error_handler();
+        static DMA_HandleTypeDef x_dma1_ch5_handle;
+
+        __HAL_RCC_USART1_CLK_ENABLE();
+        __HAL_RCC_GPIOA_CLK_ENABLE();
+        __HAL_RCC_DMA1_CLK_ENABLE();
+
+        x_gpio_init_struct.Pin =        GPIO_PIN_10;
+        x_gpio_init_struct.Mode =       GPIO_MODE_AF_PP;
+        x_gpio_init_struct.Pull =       GPIO_PULLUP;
+        x_gpio_init_struct.Speed =      GPIO_SPEED_FREQ_LOW;
+        x_gpio_init_struct.Alternate =  GPIO_AF7_USART1;
+
+        HAL_GPIO_Init( GPIOA, &x_gpio_init_struct );
+
+        x_dma1_ch5_handle.Instance =                     DMA1_Channel5;
+        x_dma1_ch5_handle.Init.Direction =               DMA_PERIPH_TO_MEMORY;
+        x_dma1_ch5_handle.Init.PeriphInc =               DMA_PINC_DISABLE;
+        x_dma1_ch5_handle.Init.MemInc =                  DMA_MINC_ENABLE;
+        x_dma1_ch5_handle.Init.PeriphDataAlignment =     DMA_PDATAALIGN_BYTE;
+        x_dma1_ch5_handle.Init.MemDataAlignment =        DMA_MDATAALIGN_BYTE;
+        x_dma1_ch5_handle.Init.Mode =                    DMA_NORMAL;
+        x_dma1_ch5_handle.Init.Priority =                DMA_PRIORITY_MEDIUM;
+
+        if( HAL_DMA_DeInit( &x_dma1_ch5_handle ) != HAL_OK )
+        {
+            v_error_handler();
+        }
+        if( HAL_DMA_Init( &x_dma1_ch5_handle ) != HAL_OK )
+        {
+            v_error_handler();
+        }
+
+        __HAL_LINKDMA( px_uart_handle, hdmarx, x_dma1_ch5_handle );
+
+        HAL_NVIC_SetPriority( DMA1_Channel5_IRQn, 7, 0);
+        HAL_NVIC_EnableIRQ( DMA1_Channel5_IRQn );
+
+        HAL_NVIC_SetPriority( USART1_IRQn, 7, 0);
+        HAL_NVIC_EnableIRQ( USART1_IRQn );
     }
-
-    __HAL_LINKDMA( px_uart_handle, hdmarx, x_dma1_ch6_handle );
-
-    HAL_NVIC_SetPriority( DMA1_Channel6_IRQn, 6, 0);
-    HAL_NVIC_EnableIRQ( DMA1_Channel6_IRQn );
 }
 
 void HAL_TIM_PWM_MspInit( TIM_HandleTypeDef *px_tim_handle )

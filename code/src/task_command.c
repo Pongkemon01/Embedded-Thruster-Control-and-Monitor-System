@@ -1,9 +1,11 @@
 #include "task_command.h"
 
+#include "task.h"
+
 #include <string.h>
 
 UART_HandleTypeDef  x_uart_command_handle;
-SemaphoreHandle_t   x_semaphore_uart_rx_ready_handle,
+SemaphoreHandle_t   x_semaphore_uart_command_rx_ready_handle,
                     x_semaphore_throttle_command_ready_handle,
                     x_semaphore_throttle_command_handle,
                     x_semaphore_throttle_handle;
@@ -22,7 +24,7 @@ void v_task_command_receiver( void *pv_parameters )
             v_error_handler();
         }
 
-        xSemaphoreTake( x_semaphore_uart_rx_ready_handle, portMAX_DELAY );
+        xSemaphoreTake( x_semaphore_uart_command_rx_ready_handle, portMAX_DELAY );
 
         if( u_command == 0x01U )
         {
@@ -33,7 +35,7 @@ void v_task_command_receiver( void *pv_parameters )
                 v_error_handler();
             }
 
-            xSemaphoreTake( x_semaphore_uart_rx_ready_handle, portMAX_DELAY );
+            xSemaphoreTake( x_semaphore_uart_command_rx_ready_handle, portMAX_DELAY );
 
             if( xSemaphoreGive( x_semaphore_throttle_command_ready_handle ) != pdTRUE )
             {
