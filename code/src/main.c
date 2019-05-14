@@ -27,9 +27,11 @@ extern void v_task_telemetry_handler( void *pv_parameters );
 
 extern SemaphoreHandle_t    x_semaphore_uart_command_rx_ready_handle,
                             x_semaphore_uart_telemetry_rx_ready_handle,
+                            x_semaphore_uart_telemetry_tx_complete_handle,
                             x_semaphore_throttle_command_ready_handle,
                             x_semaphore_throttle_command_handle,
-                            x_semaphore_throttle_handle;
+                            x_semaphore_throttle_handle,
+                            x_semaphore_telemetry_handle;
 extern QueueHandle_t        x_queue_telemetry_channel_handler;
 extern uint16_t             aus_throttle[ku_THUSTER_NUMBER];
 
@@ -46,23 +48,26 @@ int main( void )
 {
     v_system_init();
 
-    x_semaphore_uart_command_rx_ready_handle =      xSemaphoreCreateBinary();
-    x_semaphore_uart_telemetry_rx_ready_handle =    xSemaphoreCreateBinary();
-    x_semaphore_tim8_ch1_pulse_complete_handle =    xSemaphoreCreateBinary();
-    x_semaphore_tim8_ch2_pulse_complete_handle =    xSemaphoreCreateBinary();
-    x_semaphore_tim3_ch3_pulse_complete_handle =    xSemaphoreCreateBinary();
-    x_semaphore_tim8_ch4_pulse_complete_handle =    xSemaphoreCreateBinary();
-    x_semaphore_tim4_ch1_pulse_complete_handle =    xSemaphoreCreateBinary();
-    x_semaphore_tim4_ch2_pulse_complete_handle =    xSemaphoreCreateBinary();
-    x_semaphore_tim16_ch1_pulse_complete_handle =   xSemaphoreCreateBinary();
-    x_semaphore_tim8_ch3_pulse_complete_handle =    xSemaphoreCreateBinary();
-    x_semaphore_throttle_command_ready_handle =     xSemaphoreCreateBinary();
-    x_semaphore_throttle_command_handle =           xSemaphoreCreateMutex();
-    x_semaphore_throttle_handle =                   xSemaphoreCreateMutex();
-    x_semaphore_pulse_handle =                      xSemaphoreCreateMutex();
+    x_semaphore_uart_command_rx_ready_handle =          xSemaphoreCreateBinary();
+    x_semaphore_uart_telemetry_rx_ready_handle =        xSemaphoreCreateBinary();
+    x_semaphore_uart_telemetry_tx_complete_handle =     xSemaphoreCreateBinary();
+    x_semaphore_tim8_ch1_pulse_complete_handle =        xSemaphoreCreateBinary();
+    x_semaphore_tim8_ch2_pulse_complete_handle =        xSemaphoreCreateBinary();
+    x_semaphore_tim3_ch3_pulse_complete_handle =        xSemaphoreCreateBinary();
+    x_semaphore_tim8_ch4_pulse_complete_handle =        xSemaphoreCreateBinary();
+    x_semaphore_tim4_ch1_pulse_complete_handle =        xSemaphoreCreateBinary();
+    x_semaphore_tim4_ch2_pulse_complete_handle =        xSemaphoreCreateBinary();
+    x_semaphore_tim16_ch1_pulse_complete_handle =       xSemaphoreCreateBinary();
+    x_semaphore_tim8_ch3_pulse_complete_handle =        xSemaphoreCreateBinary();
+    x_semaphore_throttle_command_ready_handle =         xSemaphoreCreateBinary();
+    x_semaphore_throttle_command_handle =               xSemaphoreCreateMutex();
+    x_semaphore_throttle_handle =                       xSemaphoreCreateMutex();
+    x_semaphore_pulse_handle =                          xSemaphoreCreateMutex();
+    x_semaphore_telemetry_handle =                      xSemaphoreCreateMutex();
 
     if( x_semaphore_uart_command_rx_ready_handle == NULL ||
         x_semaphore_uart_telemetry_rx_ready_handle == NULL ||
+        x_semaphore_uart_telemetry_tx_complete_handle == NULL ||
         x_semaphore_tim8_ch1_pulse_complete_handle == NULL ||
         x_semaphore_tim8_ch2_pulse_complete_handle == NULL ||
         x_semaphore_tim3_ch3_pulse_complete_handle == NULL ||
@@ -74,7 +79,8 @@ int main( void )
         x_semaphore_throttle_command_ready_handle == NULL ||
         x_semaphore_throttle_command_handle == NULL ||
         x_semaphore_throttle_handle == NULL ||
-        x_semaphore_pulse_handle == NULL )
+        x_semaphore_pulse_handle == NULL ||
+        x_semaphore_telemetry_handle == NULL )
     {
         v_error_handler();
     }
@@ -86,23 +92,27 @@ int main( void )
         v_error_handler();
     }
     
-    if( xTaskCreate( v_task_command_receiver, "command_receiver_task", 250U, NULL, 4U, NULL ) != pdPASS )
+    if( xTaskCreate( v_task_command_receiver, "command_receiver_task", 250U, NULL, 5U, NULL ) != pdPASS )
     {
         v_error_handler();
     }
-    if( xTaskCreate( v_task_command_parser, "command_parser_task", 250U, NULL, 2U, NULL ) != pdPASS )
+    if( xTaskCreate( v_task_command_parser, "command_parser_task", 250U, NULL, 3U, NULL ) != pdPASS )
     {
         v_error_handler();
     }
-    if( xTaskCreate( v_task_make_pulse, "make_pulse_task", 250U, NULL, 3U, NULL ) != pdPASS )
+    if( xTaskCreate( v_task_make_pulse, "make_pulse_task", 250U, NULL, 4U, NULL ) != pdPASS )
     {
         v_error_handler();
     }
-    if( xTaskCreate( v_task_thruster, "thruser_task", 250U, NULL, 5U, NULL ) != pdPASS )
+    if( xTaskCreate( v_task_thruster, "thruser_task", 250U, NULL, 6U, NULL ) != pdPASS )
     {
         v_error_handler();
     }
-    if( xTaskCreate( v_task_telemetry_handler, "telemetry_handler_task", 250U, NULL, 1U, NULL ) != pdPASS )
+    if( xTaskCreate( v_task_telemetry_handler, "telemetry_handler_task", 250U, NULL, 2U, NULL ) != pdPASS )
+    {
+        v_error_handler();
+    }
+    if( xTaskCreate( v_task_telemetry_trasmitter, "telemetry_transmitter_task", 250U, NULL, 1U, NULL ) != pdPASS )
     {
         v_error_handler();
     }

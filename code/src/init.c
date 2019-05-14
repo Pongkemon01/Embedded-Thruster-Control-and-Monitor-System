@@ -35,7 +35,7 @@ void v_system_init( void )
 static void v_uart_init( void )
 {
     x_uart_command_handle.Instance =                        USART2;
-    x_uart_command_handle.Init.BaudRate =                   9600U;
+    x_uart_command_handle.Init.BaudRate =                   115200U;
     x_uart_command_handle.Init.WordLength =                 UART_WORDLENGTH_8B;
     x_uart_command_handle.Init.StopBits =                   UART_STOPBITS_1;
     x_uart_command_handle.Init.Parity =                     UART_PARITY_NONE;

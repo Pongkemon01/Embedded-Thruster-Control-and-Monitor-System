@@ -42,6 +42,9 @@ void HAL_UART_MspInit( UART_HandleTypeDef *px_uart_handle )
 
         HAL_NVIC_SetPriority( DMA1_Channel6_IRQn, 6, 0);
         HAL_NVIC_EnableIRQ( DMA1_Channel6_IRQn );
+
+        HAL_NVIC_SetPriority( USART2_IRQn, 8, 0);
+        HAL_NVIC_EnableIRQ( USART2_IRQn );
     }
     else if( px_uart_handle->Instance == USART1 )
     {

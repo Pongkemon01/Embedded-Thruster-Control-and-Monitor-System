@@ -9,6 +9,7 @@ extern TIM_HandleTypeDef    x_tim3_handle,
                             x_tim16_handle;
 extern SemaphoreHandle_t    x_semaphore_uart_command_rx_ready_handle,
                             x_semaphore_uart_telemetry_rx_ready_handle,
+                            x_semaphore_uart_telemetry_tx_complete_handle,
                             x_semaphore_tim8_ch1_pulse_complete_handle,
                             x_semaphore_tim8_ch2_pulse_complete_handle,
                             x_semaphore_tim3_ch3_pulse_complete_handle,
@@ -17,6 +18,21 @@ extern SemaphoreHandle_t    x_semaphore_uart_command_rx_ready_handle,
                             x_semaphore_tim4_ch2_pulse_complete_handle,
                             x_semaphore_tim16_ch1_pulse_complete_handle,
                             x_semaphore_tim8_ch3_pulse_complete_handle;
+
+void HAL_UART_TxCpltCallback( UART_HandleTypeDef *huart )
+{
+    BaseType_t x_higher_priority_task_woken = pdFALSE;
+
+    if( huart->Instance == USART2 )
+    {
+        if( xSemaphoreGiveFromISR( x_semaphore_uart_telemetry_tx_complete_handle, &x_higher_priority_task_woken ) != pdTRUE )
+        {
+            v_error_handler();
+        }
+    }
+    
+    portYIELD_FROM_ISR( x_higher_priority_task_woken );
+}
 
 void HAL_UART_RxCpltCallback( UART_HandleTypeDef *huart )
 {
@@ -116,6 +132,11 @@ void HAL_TIM_PWM_PulseFinishedCallback( TIM_HandleTypeDef *htim )
 void USART1_IRQHandler( void )
 {
     HAL_UART_IRQHandler( &x_uart_telemetry_handler );
+}
+
+void USART2_IRQHandler( void )
+{
+    HAL_UART_IRQHandler( &x_uart_command_handle );
 }
 
 void DMA1_Channel1_IRQHandler( void )
