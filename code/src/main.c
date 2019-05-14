@@ -9,13 +9,15 @@
 
 TIM_HandleTypeDef       x_tim3_handle,
                         x_tim4_handle,
-                        x_tim8_handle;
+                        x_tim8_handle,
+                        x_tim16_handle;
 SemaphoreHandle_t       x_semaphore_tim8_ch1_pulse_complete_handle,
                         x_semaphore_tim8_ch2_pulse_complete_handle,
                         x_semaphore_tim3_ch3_pulse_complete_handle,
                         x_semaphore_tim8_ch4_pulse_complete_handle,
                         x_semaphore_tim4_ch1_pulse_complete_handle,
                         x_semaphore_tim4_ch2_pulse_complete_handle,
+                        x_semaphore_tim16_ch1_pulse_complete_handle,
                         x_semaphore_tim8_ch3_pulse_complete_handle;
 
 extern void v_task_command_receiver( void *pv_parameters );
@@ -47,6 +49,7 @@ int main( void )
     x_semaphore_tim8_ch4_pulse_complete_handle =    xSemaphoreCreateBinary();
     x_semaphore_tim4_ch1_pulse_complete_handle =    xSemaphoreCreateBinary();
     x_semaphore_tim4_ch2_pulse_complete_handle =    xSemaphoreCreateBinary();
+    x_semaphore_tim16_ch1_pulse_complete_handle =   xSemaphoreCreateBinary();
     x_semaphore_tim8_ch3_pulse_complete_handle =    xSemaphoreCreateBinary();
     x_semaphore_throttle_command_ready_handle =     xSemaphoreCreateBinary();
     x_semaphore_throttle_command_handle =           xSemaphoreCreateMutex();
@@ -60,6 +63,7 @@ int main( void )
         x_semaphore_tim8_ch4_pulse_complete_handle == NULL ||
         x_semaphore_tim4_ch1_pulse_complete_handle == NULL ||
         x_semaphore_tim4_ch2_pulse_complete_handle == NULL ||
+        x_semaphore_tim16_ch1_pulse_complete_handle == NULL ||
         x_semaphore_tim8_ch3_pulse_complete_handle == NULL ||
         x_semaphore_throttle_command_ready_handle == NULL ||
         x_semaphore_throttle_command_handle == NULL ||
@@ -167,12 +171,12 @@ static void v_task_thruster( void *pv_parameters )
         {
             v_error_handler();
         }
-        x_tim8_handle.State = HAL_TIM_STATE_READY; // prevent HAL internal locking mechanism
+        x_tim8_handle.State = HAL_TIM_STATE_READY; // override HAL internal locking mechanism
         if( HAL_TIM_PWM_Start_DMA( &x_tim8_handle, TIM_CHANNEL_2, ( uint32_t * )au_pulse_current[1U], ku_DSHOT_COMPENSTATED_COMMAND_SIZE ) != HAL_OK )
         {
             v_error_handler();
         }
-        x_tim8_handle.State = HAL_TIM_STATE_READY; // prevent HAL internal locking mechanism
+        x_tim8_handle.State = HAL_TIM_STATE_READY; // override HAL internal locking mechanism
         if( HAL_TIM_PWM_Start_DMA( &x_tim3_handle, TIM_CHANNEL_3, ( uint32_t * )au_pulse_current[2U], ku_DSHOT_COMPENSTATED_COMMAND_SIZE ) != HAL_OK )
         {
             v_error_handler();
@@ -181,13 +185,17 @@ static void v_task_thruster( void *pv_parameters )
         {
             v_error_handler();
         }
-        x_tim8_handle.State = HAL_TIM_STATE_READY; // prevent HAL internal locking mechanism
+        x_tim8_handle.State = HAL_TIM_STATE_READY; // override HAL internal locking mechanism
         if( HAL_TIM_PWM_Start_DMA( &x_tim4_handle, TIM_CHANNEL_1, ( uint32_t * )au_pulse_current[4U], ku_DSHOT_COMPENSTATED_COMMAND_SIZE ) != HAL_OK )
         {
             v_error_handler();
         }
-        x_tim4_handle.State = HAL_TIM_STATE_READY; // prevent HAL internal locking mechanism
+        x_tim4_handle.State = HAL_TIM_STATE_READY; // override HAL internal locking mechanism
         if( HAL_TIM_PWM_Start_DMA( &x_tim4_handle, TIM_CHANNEL_2, ( uint32_t * )au_pulse_current[5U], ku_DSHOT_COMPENSTATED_COMMAND_SIZE ) != HAL_OK )
+        {
+            v_error_handler();
+        }
+        if( HAL_TIM_PWM_Start_DMA( &x_tim16_handle, TIM_CHANNEL_1, ( uint32_t * )au_pulse_current[6U], ku_DSHOT_COMPENSTATED_COMMAND_SIZE ) != HAL_OK )
         {
             v_error_handler();
         }
@@ -202,6 +210,7 @@ static void v_task_thruster( void *pv_parameters )
         xSemaphoreTake( x_semaphore_tim8_ch4_pulse_complete_handle, portMAX_DELAY );
         xSemaphoreTake( x_semaphore_tim4_ch1_pulse_complete_handle, portMAX_DELAY );
         xSemaphoreTake( x_semaphore_tim4_ch2_pulse_complete_handle, portMAX_DELAY );
+        xSemaphoreTake( x_semaphore_tim16_ch1_pulse_complete_handle, portMAX_DELAY );
         xSemaphoreTake( x_semaphore_tim8_ch3_pulse_complete_handle, portMAX_DELAY );
 
         if( HAL_TIM_PWM_Stop_DMA( &x_tim8_handle, TIM_CHANNEL_1 ) != HAL_OK )
@@ -225,6 +234,10 @@ static void v_task_thruster( void *pv_parameters )
             v_error_handler();
         }
         if( HAL_TIM_PWM_Stop_DMA( &x_tim4_handle, TIM_CHANNEL_2 ) != HAL_OK )
+        {
+            v_error_handler();
+        }
+        if( HAL_TIM_PWM_Stop_DMA( &x_tim16_handle, TIM_CHANNEL_1 ) != HAL_OK )
         {
             v_error_handler();
         }
