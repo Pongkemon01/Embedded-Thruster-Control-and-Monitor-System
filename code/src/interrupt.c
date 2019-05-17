@@ -23,7 +23,7 @@ void HAL_UART_TxCpltCallback( UART_HandleTypeDef *huart )
 {
     BaseType_t x_higher_priority_task_woken = pdFALSE;
 
-    if( huart->Instance == USART2 )
+    if( huart->Instance == USART1 )
     {
         if( xSemaphoreGiveFromISR( x_semaphore_uart_telemetry_tx_complete_handle, &x_higher_priority_task_woken ) != pdTRUE )
         {
@@ -38,14 +38,14 @@ void HAL_UART_RxCpltCallback( UART_HandleTypeDef *huart )
 {
     BaseType_t x_higher_priority_task_woken = pdFALSE;
 
-    if( huart->Instance == USART2 )
+    if( huart->Instance == USART1 )
     {
         if( xSemaphoreGiveFromISR( x_semaphore_uart_command_rx_ready_handle, &x_higher_priority_task_woken ) != pdTRUE )
         {
             v_error_handler();
         }
     }
-    else if( huart->Instance == USART1 )
+    else if( huart->Instance == USART2 )
     {
         if( xSemaphoreGiveFromISR( x_semaphore_uart_telemetry_rx_ready_handle, &x_higher_priority_task_woken ) != pdTRUE )
         {
@@ -131,12 +131,12 @@ void HAL_TIM_PWM_PulseFinishedCallback( TIM_HandleTypeDef *htim )
 
 void USART1_IRQHandler( void )
 {
-    HAL_UART_IRQHandler( &x_uart_telemetry_handler );
+    HAL_UART_IRQHandler( &x_uart_command_handle );
 }
 
 void USART2_IRQHandler( void )
 {
-    HAL_UART_IRQHandler( &x_uart_command_handle );
+    HAL_UART_IRQHandler( &x_uart_telemetry_handler );
 }
 
 void DMA1_Channel1_IRQHandler( void )
@@ -161,12 +161,12 @@ void DMA1_Channel4_IRQHandler( void )
 
 void DMA1_Channel5_IRQHandler( void )
 {
-    HAL_DMA_IRQHandler( x_uart_telemetry_handler.hdmarx );
+    HAL_DMA_IRQHandler( x_uart_command_handle.hdmarx );
 }
 
 void DMA1_Channel6_IRQHandler( void )
 {
-    HAL_DMA_IRQHandler( x_uart_command_handle.hdmarx );
+    HAL_DMA_IRQHandler( x_uart_telemetry_handler.hdmarx );
 }
 
 void DMA2_Channel1_IRQHandler( void )

@@ -34,7 +34,7 @@ void v_system_init( void )
 
 static void v_uart_init( void )
 {
-    x_uart_command_handle.Instance =                        USART2;
+    x_uart_command_handle.Instance =                        USART1;
     x_uart_command_handle.Init.BaudRate =                   115200U;
     x_uart_command_handle.Init.WordLength =                 UART_WORDLENGTH_8B;
     x_uart_command_handle.Init.StopBits =                   UART_STOPBITS_1;
@@ -54,7 +54,7 @@ static void v_uart_init( void )
         v_error_handler();
     }
 
-    x_uart_telemetry_handler.Instance =                        USART1;
+    x_uart_telemetry_handler.Instance =                        USART2;
     x_uart_telemetry_handler.Init.BaudRate =                   115200U;
     x_uart_telemetry_handler.Init.WordLength =                 UART_WORDLENGTH_8B;
     x_uart_telemetry_handler.Init.StopBits =                   UART_STOPBITS_1;
