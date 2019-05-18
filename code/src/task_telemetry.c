@@ -77,14 +77,14 @@ void v_task_telemetry_handler( void *pv_parameters )
 void v_task_telemetry_trasmitter( void *pv_parameters )
 {
     static TickType_t       x_last_wake_time;
-    static const uint8_t    au_telemetry_begin[] = { 0xAAU, 0xAAU, 0xAAU, 0xAAU, 
-                                                     0xAAU, 0xAAU, 0xAAU, 0xAAU };
+    static const uint8_t    kau_telemetry_begin[8U] = { 0xAAU, 0xAAU, 0xAAU, 0xAAU, 
+                                                        0xAAU, 0xAAU, 0xAAU, 0xAAU };
     
     x_last_wake_time = xTaskGetTickCount();
 
     for(;;)
     {
-        if( HAL_UART_Transmit_IT( &x_uart_command_handle, ( uint8_t * )au_telemetry_begin, 8U ) != HAL_OK )
+        if( HAL_UART_Transmit_IT( &x_uart_command_handle, ( uint8_t * )kau_telemetry_begin, 8U ) != HAL_OK )
         {
             v_error_handler();
         }
