@@ -39,7 +39,7 @@ void v_task_telemetry_handler( void *pv_parameters )
             v_error_handler();
         }
 
-        if( xSemaphoreTake( x_semaphore_uart_telemetry_rx_ready_handle, pdMS_TO_TICKS( 2U ) ) != pdPASS )
+        if( xSemaphoreTake( x_semaphore_uart_telemetry_rx_ready_handle, pdMS_TO_TICKS( 40U ) ) != pdPASS )
         {
             if( HAL_UART_DMAStop( &x_uart_telemetry_handler ) != HAL_OK )
             {
