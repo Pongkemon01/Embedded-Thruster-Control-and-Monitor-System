@@ -38,6 +38,7 @@ extern uint16_t             aus_throttle[ku_THUSTER_NUMBER];
 static void v_task_make_pulse( void *pv_parameters );
 static void v_task_thruster( void *pv_parameters );
 
+static uint16_t us_reverse_throttle_bit( uint16_t us_throttle );
 static uint8_t u_generate_crc( uint16_t us_pulse );
 
 static SemaphoreHandle_t    x_semaphore_pulse_handle;
@@ -141,7 +142,7 @@ static void v_task_make_pulse( void *pv_parameters )
 
         for( uint8_t i = 0U ; i < ku_THUSTER_NUMBER ; i++ )
         {
-            aus_packet_dshot[i] = aus_throttle[i];
+            aus_packet_dshot[i] = us_reverse_throttle_bit( aus_throttle[i] );
 
             if( i == u_telemetry_channel )
             {
@@ -283,6 +284,19 @@ static void v_task_thruster( void *pv_parameters )
         
         vTaskDelayUntil( &x_last_wake_time, pdMS_TO_TICKS( 1U ) );
     }
+}
+
+static uint16_t us_reverse_throttle_bit( uint16_t us_throttle )
+{
+    uint16_t reversed_throttle = 0U;
+
+    for( uint8_t i = 0U ; i < 11U ; i++ )
+    {
+        reversed_throttle |= ( us_throttle & 1U ) << ( 10U - i );
+        us_throttle = us_throttle >> 1U;
+    }
+
+    return reversed_throttle;
 }
 
 static uint8_t u_generate_crc( uint16_t us_pulse )
