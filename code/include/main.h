@@ -6,7 +6,7 @@
 #include "FreeRTOS.h"
 #include "semphr.h"
 
-#include "config.h"
+#include "definition.h"
 #include "error_handler.h"
 
 extern TIM_HandleTypeDef    x_tim3_handle,

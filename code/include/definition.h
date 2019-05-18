@@ -1,5 +1,5 @@
-#ifndef CONFIG_H
-#define CONFIG_H
+#ifndef DEFINITION_H
+#define DEFINITION_H
 
 #define ku_THUSTER_NUMBER                   8U
 #define ku_THROTTLE_COMMAND_SIZE            16U
