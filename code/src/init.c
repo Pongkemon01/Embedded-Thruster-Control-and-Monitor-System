@@ -26,7 +26,10 @@ void v_system_init( void )
     HAL_NVIC_SetPriorityGrouping( NVIC_PRIORITYGROUP_4 );
 
     v_system_clock_config();
+}
 
+void v_peripheral_init( void )
+{
     v_uart_init();
     v_timer_init();
     v_gpio_telemetry_selector_init();

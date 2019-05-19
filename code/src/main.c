@@ -25,6 +25,9 @@ extern void v_task_command_receiver( void *pv_parameters );
 extern void v_task_command_parser( void *pv_parameters );
 extern void v_task_telemetry_handler( void *pv_parameters );
 
+extern void v_system_init( void );
+extern void v_peripheral_init( void );
+
 extern SemaphoreHandle_t    x_semaphore_uart_command_rx_ready_handle,
                             x_semaphore_uart_telemetry_rx_ready_handle,
                             x_semaphore_uart_telemetry_tx_complete_handle,
@@ -47,6 +50,7 @@ static uint8_t              au_pulse[ku_THUSTER_NUMBER][ku_DSHOT_COMPENSTATED_CO
 int main( void )
 {
     v_system_init();
+    v_peripheral_init();
 
     x_semaphore_uart_command_rx_ready_handle =          xSemaphoreCreateBinary();
     x_semaphore_uart_telemetry_rx_ready_handle =        xSemaphoreCreateBinary();
