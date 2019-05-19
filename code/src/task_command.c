@@ -28,7 +28,23 @@ void v_task_command_receiver( void *pv_parameters )
             v_error_handler();
         }
 
-        if( xSemaphoreTake( x_semaphore_uart_command_rx_ready_handle, pdMS_TO_TICKS( 100U ) ) == pdPASS )
+        if( xSemaphoreTake( x_semaphore_uart_command_rx_ready_handle, pdMS_TO_TICKS( 100U ) ) != pdPASS )
+        {
+            if( HAL_UART_DMAStop( &x_uart_command_handle ) != HAL_OK )
+            {
+                v_error_handler();
+            }
+
+            xSemaphoreTake( x_semaphore_throttle_command_handle, portMAX_DELAY );
+
+            memcpy( ( void * ) au_throttle_command, ( void * ) kau_COMMAND_FALLBACK_THROTTLE, ku_THROTTLE_COMMAND_SIZE );
+
+            if( xSemaphoreGive( x_semaphore_throttle_command_handle ) != pdTRUE )
+            {
+                v_error_handler();
+            }
+        }
+        else
         {
             if( u_command == ku_COMMAND_SET_THROTTLE )
             {
@@ -53,22 +69,6 @@ void v_task_command_receiver( void *pv_parameters )
                 }
             }
         }
-        else
-        {
-            if( HAL_UART_DMAStop( &x_uart_command_handle ) != HAL_OK )
-            {
-                v_error_handler();
-            }
-
-            xSemaphoreTake( x_semaphore_throttle_command_handle, portMAX_DELAY );
-
-            memcpy( ( void * ) au_throttle_command, ( void * ) kau_COMMAND_FALLBACK_THROTTLE, ku_THROTTLE_COMMAND_SIZE );
-
-            if( xSemaphoreGive( x_semaphore_throttle_command_handle ) != pdTRUE )
-            {
-                v_error_handler();
-            }
-        }
     }
 }
 
@@ -91,12 +91,9 @@ void v_task_command_parser( void *pv_parameters )
         }
 
         xSemaphoreTake( x_semaphore_throttle_handle, portMAX_DELAY );
-        
-        for( uint8_t i = 0U ; i < ku_THROTTLE_COMMAND_SIZE ; i = i + 2U )
-        {
-            aus_throttle[i / 2U] = ( uint16_t )( au_copy_throttle_command[i] | ( au_copy_throttle_command[i + 1U] << 8U ) );
-        }
 
+        memcpy( ( void * )aus_throttle, ( void * )au_copy_throttle_command, ku_THROTTLE_COMMAND_SIZE );
+        
         if( xSemaphoreGive( x_semaphore_throttle_handle ) != pdTRUE )
         {
             v_error_handler();
