@@ -10,6 +10,22 @@ extern TIM_HandleTypeDef    x_tim3_handle,
                             x_tim4_handle,
                             x_tim8_handle,
                             x_tim16_handle;
+extern SemaphoreHandle_t    x_semaphore_uart_command_rx_ready_handle,
+                            x_semaphore_uart_telemetry_rx_ready_handle,
+                            x_semaphore_uart_telemetry_tx_complete_handle,
+                            x_semaphore_tim8_ch1_pulse_complete_handle,
+                            x_semaphore_tim8_ch2_pulse_complete_handle,
+                            x_semaphore_tim3_ch3_pulse_complete_handle,
+                            x_semaphore_tim8_ch4_pulse_complete_handle,
+                            x_semaphore_tim4_ch1_pulse_complete_handle,
+                            x_semaphore_tim4_ch2_pulse_complete_handle,
+                            x_semaphore_tim16_ch1_pulse_complete_handle,
+                            x_semaphore_tim8_ch3_pulse_complete_handle,
+                            x_semaphore_throttle_command_handle,
+                            x_semaphore_throttle_handle,
+                            x_semaphore_pulse_handle,
+                            x_semaphore_telemetry_handle;
+extern QueueHandle_t        x_queue_telemetry_channel_handler;
 
 static void v_uart_init( void );
 static void v_timer_init( void );
@@ -33,6 +49,51 @@ void v_peripheral_init( void )
     v_uart_init();
     v_timer_init();
     v_gpio_telemetry_selector_init();
+}
+
+void v_os_element_init( void )
+{
+    x_semaphore_uart_command_rx_ready_handle =          xSemaphoreCreateBinary();
+    x_semaphore_uart_telemetry_rx_ready_handle =        xSemaphoreCreateBinary();
+    x_semaphore_uart_telemetry_tx_complete_handle =     xSemaphoreCreateBinary();
+    x_semaphore_tim8_ch1_pulse_complete_handle =        xSemaphoreCreateBinary();
+    x_semaphore_tim8_ch2_pulse_complete_handle =        xSemaphoreCreateBinary();
+    x_semaphore_tim3_ch3_pulse_complete_handle =        xSemaphoreCreateBinary();
+    x_semaphore_tim8_ch4_pulse_complete_handle =        xSemaphoreCreateBinary();
+    x_semaphore_tim4_ch1_pulse_complete_handle =        xSemaphoreCreateBinary();
+    x_semaphore_tim4_ch2_pulse_complete_handle =        xSemaphoreCreateBinary();
+    x_semaphore_tim16_ch1_pulse_complete_handle =       xSemaphoreCreateBinary();
+    x_semaphore_tim8_ch3_pulse_complete_handle =        xSemaphoreCreateBinary();
+    x_semaphore_throttle_command_handle =               xSemaphoreCreateMutex();
+    x_semaphore_throttle_handle =                       xSemaphoreCreateMutex();
+    x_semaphore_pulse_handle =                          xSemaphoreCreateMutex();
+    x_semaphore_telemetry_handle =                      xSemaphoreCreateMutex();
+
+    if( x_semaphore_uart_command_rx_ready_handle == NULL ||
+        x_semaphore_uart_telemetry_rx_ready_handle == NULL ||
+        x_semaphore_uart_telemetry_tx_complete_handle == NULL ||
+        x_semaphore_tim8_ch1_pulse_complete_handle == NULL ||
+        x_semaphore_tim8_ch2_pulse_complete_handle == NULL ||
+        x_semaphore_tim3_ch3_pulse_complete_handle == NULL ||
+        x_semaphore_tim8_ch4_pulse_complete_handle == NULL ||
+        x_semaphore_tim4_ch1_pulse_complete_handle == NULL ||
+        x_semaphore_tim4_ch2_pulse_complete_handle == NULL ||
+        x_semaphore_tim16_ch1_pulse_complete_handle == NULL ||
+        x_semaphore_tim8_ch3_pulse_complete_handle == NULL ||
+        x_semaphore_throttle_command_handle == NULL ||
+        x_semaphore_throttle_handle == NULL ||
+        x_semaphore_pulse_handle == NULL ||
+        x_semaphore_telemetry_handle == NULL )
+    {
+        v_error_handler();
+    }
+
+    x_queue_telemetry_channel_handler = xQueueCreate( 1U, 1U );
+
+    if( x_queue_telemetry_channel_handler == NULL )
+    {
+        v_error_handler();
+    }
 }
 
 static void v_uart_init( void )

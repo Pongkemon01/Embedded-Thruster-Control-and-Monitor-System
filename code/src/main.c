@@ -8,18 +8,19 @@
 
 #include <string.h>
 
-TIM_HandleTypeDef       x_tim3_handle,
-                        x_tim4_handle,
-                        x_tim8_handle,
-                        x_tim16_handle;
-SemaphoreHandle_t       x_semaphore_tim8_ch1_pulse_complete_handle,
-                        x_semaphore_tim8_ch2_pulse_complete_handle,
-                        x_semaphore_tim3_ch3_pulse_complete_handle,
-                        x_semaphore_tim8_ch4_pulse_complete_handle,
-                        x_semaphore_tim4_ch1_pulse_complete_handle,
-                        x_semaphore_tim4_ch2_pulse_complete_handle,
-                        x_semaphore_tim16_ch1_pulse_complete_handle,
-                        x_semaphore_tim8_ch3_pulse_complete_handle;
+TIM_HandleTypeDef   x_tim3_handle,
+                    x_tim4_handle,
+                    x_tim8_handle,
+                    x_tim16_handle;
+SemaphoreHandle_t   x_semaphore_pulse_handle,
+                    x_semaphore_tim8_ch1_pulse_complete_handle,
+                    x_semaphore_tim8_ch2_pulse_complete_handle,
+                    x_semaphore_tim3_ch3_pulse_complete_handle,
+                    x_semaphore_tim8_ch4_pulse_complete_handle,
+                    x_semaphore_tim4_ch1_pulse_complete_handle,
+                    x_semaphore_tim4_ch2_pulse_complete_handle,
+                    x_semaphore_tim16_ch1_pulse_complete_handle,
+                    x_semaphore_tim8_ch3_pulse_complete_handle;
 
 extern void v_task_command_receiver( void *pv_parameters );
 extern void v_task_command_parser( void *pv_parameters );
@@ -27,13 +28,9 @@ extern void v_task_telemetry_handler( void *pv_parameters );
 
 extern void v_system_init( void );
 extern void v_peripheral_init( void );
+extern void v_os_element_init( void );
 
-extern SemaphoreHandle_t    x_semaphore_uart_command_rx_ready_handle,
-                            x_semaphore_uart_telemetry_rx_ready_handle,
-                            x_semaphore_uart_telemetry_tx_complete_handle,
-                            x_semaphore_throttle_command_handle,
-                            x_semaphore_throttle_handle,
-                            x_semaphore_telemetry_handle;
+extern SemaphoreHandle_t    x_semaphore_throttle_handle;
 extern QueueHandle_t        x_queue_telemetry_channel_handler;
 extern uint16_t             aus_throttle[ku_THUSTER_NUMBER];
 
@@ -43,56 +40,14 @@ static void v_task_thruster( void *pv_parameters );
 inline static uint16_t us_reverse_throttle_bit( uint16_t us_throttle );
 inline static uint8_t u_generate_crc( uint16_t us_pulse );
 
-static SemaphoreHandle_t    x_semaphore_pulse_handle;
-static uint8_t              au_pulse[ku_THUSTER_NUMBER][ku_DSHOT_COMPENSTATED_COMMAND_SIZE],
-                            au_pulse_current[ku_THUSTER_NUMBER][ku_DSHOT_COMPENSTATED_COMMAND_SIZE];
+static uint8_t  au_pulse[ku_THUSTER_NUMBER][ku_DSHOT_COMPENSTATED_COMMAND_SIZE],
+                au_pulse_current[ku_THUSTER_NUMBER][ku_DSHOT_COMPENSTATED_COMMAND_SIZE];
 
 int main( void )
 {
     v_system_init();
     v_peripheral_init();
-
-    x_semaphore_uart_command_rx_ready_handle =          xSemaphoreCreateBinary();
-    x_semaphore_uart_telemetry_rx_ready_handle =        xSemaphoreCreateBinary();
-    x_semaphore_uart_telemetry_tx_complete_handle =     xSemaphoreCreateBinary();
-    x_semaphore_tim8_ch1_pulse_complete_handle =        xSemaphoreCreateBinary();
-    x_semaphore_tim8_ch2_pulse_complete_handle =        xSemaphoreCreateBinary();
-    x_semaphore_tim3_ch3_pulse_complete_handle =        xSemaphoreCreateBinary();
-    x_semaphore_tim8_ch4_pulse_complete_handle =        xSemaphoreCreateBinary();
-    x_semaphore_tim4_ch1_pulse_complete_handle =        xSemaphoreCreateBinary();
-    x_semaphore_tim4_ch2_pulse_complete_handle =        xSemaphoreCreateBinary();
-    x_semaphore_tim16_ch1_pulse_complete_handle =       xSemaphoreCreateBinary();
-    x_semaphore_tim8_ch3_pulse_complete_handle =        xSemaphoreCreateBinary();
-    x_semaphore_throttle_command_handle =               xSemaphoreCreateMutex();
-    x_semaphore_throttle_handle =                       xSemaphoreCreateMutex();
-    x_semaphore_pulse_handle =                          xSemaphoreCreateMutex();
-    x_semaphore_telemetry_handle =                      xSemaphoreCreateMutex();
-
-    if( x_semaphore_uart_command_rx_ready_handle == NULL ||
-        x_semaphore_uart_telemetry_rx_ready_handle == NULL ||
-        x_semaphore_uart_telemetry_tx_complete_handle == NULL ||
-        x_semaphore_tim8_ch1_pulse_complete_handle == NULL ||
-        x_semaphore_tim8_ch2_pulse_complete_handle == NULL ||
-        x_semaphore_tim3_ch3_pulse_complete_handle == NULL ||
-        x_semaphore_tim8_ch4_pulse_complete_handle == NULL ||
-        x_semaphore_tim4_ch1_pulse_complete_handle == NULL ||
-        x_semaphore_tim4_ch2_pulse_complete_handle == NULL ||
-        x_semaphore_tim16_ch1_pulse_complete_handle == NULL ||
-        x_semaphore_tim8_ch3_pulse_complete_handle == NULL ||
-        x_semaphore_throttle_command_handle == NULL ||
-        x_semaphore_throttle_handle == NULL ||
-        x_semaphore_pulse_handle == NULL ||
-        x_semaphore_telemetry_handle == NULL )
-    {
-        v_error_handler();
-    }
-
-    x_queue_telemetry_channel_handler = xQueueCreate( 1U, 1U );
-
-    if( x_queue_telemetry_channel_handler == NULL )
-    {
-        v_error_handler();
-    }
+    v_os_element_init();
     
     if( xTaskCreate( v_task_command_receiver, "command_receiver_task", 250U, NULL, 5U, NULL ) != pdPASS )
     {
