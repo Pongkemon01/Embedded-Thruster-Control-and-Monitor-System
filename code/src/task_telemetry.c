@@ -14,8 +14,9 @@ SemaphoreHandle_t   x_semaphore_uart_telemetry_rx_ready_handle,
 extern UART_HandleTypeDef x_uart_command_handle;
 
 static void v_telementry_select( uint8_t u_telementry_channel );
-static uint8_t u_generate_crc8( uint8_t au_data[], uint8_t u_length );
-static uint8_t u_update_crc8( uint8_t u_crc, uint8_t u_crc_seed );
+
+inline static uint8_t u_generate_crc8( uint8_t au_data[], uint8_t u_length );
+inline static uint8_t u_update_crc8( uint8_t u_crc, uint8_t u_crc_seed );
 
 static uint8_t au_telemetry[ku_THUSTER_NUMBER][ku_KISS_TELEMETRY_SIZE - 1U];
 
@@ -82,7 +83,7 @@ void v_task_telemetry_handler( void *pv_parameters )
             u_telemetry_channel_current = 0U;
         }
 
-        vTaskDelayUntil( &x_last_wake_time, pdMS_TO_TICKS( 33U ) );
+        vTaskDelayUntil( &x_last_wake_time, pdMS_TO_TICKS( ku_TASK_SLEEP_TIME ) );
     }
 }
 
@@ -116,7 +117,7 @@ void v_task_telemetry_trasmitter( void *pv_parameters )
             v_error_handler();
         }
 
-        vTaskDelayUntil( &x_last_wake_time, pdMS_TO_TICKS( 10U ) );
+        vTaskDelayUntil( &x_last_wake_time, pdMS_TO_TICKS( ku_TASK_TELEMETRY_TRASMITTER_SLEEP_TIME ) );
     }
 }
 
@@ -150,7 +151,7 @@ static void v_telementry_select( uint8_t u_telementry_channel )
     }
 }
 
-static uint8_t u_generate_crc8( uint8_t au_data[], uint8_t u_length )
+inline static uint8_t u_generate_crc8( uint8_t au_data[], uint8_t u_length )
 {
     uint8_t crc = 0U;
 
@@ -162,7 +163,7 @@ static uint8_t u_generate_crc8( uint8_t au_data[], uint8_t u_length )
     return crc;
 }
 
-static uint8_t u_update_crc8( uint8_t u_crc, uint8_t u_crc_seed )
+inline static uint8_t u_update_crc8( uint8_t u_crc, uint8_t u_crc_seed )
 {
     uint8_t u_crc_update;
     
