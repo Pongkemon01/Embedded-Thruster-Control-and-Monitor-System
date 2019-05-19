@@ -37,8 +37,8 @@ extern uint16_t             aus_throttle[ku_THUSTER_NUMBER];
 static void v_task_make_pulse( void *pv_parameters );
 static void v_task_thruster( void *pv_parameters );
 
-static uint16_t us_reverse_throttle_bit( uint16_t us_throttle );
-static uint8_t u_generate_crc( uint16_t us_pulse );
+inline static uint16_t us_reverse_throttle_bit( uint16_t us_throttle );
+inline static uint8_t u_generate_crc( uint16_t us_pulse );
 
 static SemaphoreHandle_t    x_semaphore_pulse_handle;
 static uint8_t              au_pulse[ku_THUSTER_NUMBER][ku_DSHOT_COMPENSTATED_COMMAND_SIZE],
@@ -283,7 +283,7 @@ static void v_task_thruster( void *pv_parameters )
     }
 }
 
-static uint16_t us_reverse_throttle_bit( uint16_t us_throttle )
+inline static uint16_t us_reverse_throttle_bit( uint16_t us_throttle )
 {
     uint16_t reversed_throttle = 0U;
 
@@ -296,7 +296,7 @@ static uint16_t us_reverse_throttle_bit( uint16_t us_throttle )
     return reversed_throttle;
 }
 
-static uint8_t u_generate_crc( uint16_t us_pulse )
+inline static uint8_t u_generate_crc( uint16_t us_pulse )
 {
     uint8_t u_crc = 0U;
 
