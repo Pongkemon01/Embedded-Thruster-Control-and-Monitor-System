@@ -14,11 +14,12 @@ static uint8_t  au_throttle_command[ku_THROTTLE_COMMAND_SIZE];
 
 void v_task_command_receiver( void *pv_parameters )
 {
-    static uint8_t          u_command;
-    static const uint8_t    kau_COMMAND_ZERO_THROTTLE[ku_THROTTLE_COMMAND_SIZE] = { 0U, 0U, 0U, 0U,
-                                                                                    0U, 0U, 0U, 0U,
-                                                                                    0U, 0U, 0U, 0U,
-                                                                                    0U, 0U, 0U, 0U };
+    static const uint8_t kau_COMMAND_FALLBACK_THROTTLE[ku_THROTTLE_COMMAND_SIZE] = { 0U, 0U, 0U, 0U,
+                                                                                     0U, 0U, 0U, 0U,
+                                                                                     0U, 0U, 0U, 0U,
+                                                                                     0U, 0U, 0U, 0U };
+
+    static uint8_t u_command;
 
     for(;;)
     {
@@ -61,7 +62,7 @@ void v_task_command_receiver( void *pv_parameters )
 
             xSemaphoreTake( x_semaphore_throttle_command_handle, portMAX_DELAY );
 
-            memcpy( ( void * ) au_throttle_command, ( void * ) kau_COMMAND_ZERO_THROTTLE, ku_THROTTLE_COMMAND_SIZE );
+            memcpy( ( void * ) au_throttle_command, ( void * ) kau_COMMAND_FALLBACK_THROTTLE, ku_THROTTLE_COMMAND_SIZE );
 
             if( xSemaphoreGive( x_semaphore_throttle_command_handle ) != pdTRUE )
             {

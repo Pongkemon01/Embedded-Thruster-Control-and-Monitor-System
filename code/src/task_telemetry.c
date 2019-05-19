@@ -3,6 +3,8 @@
 #include "task.h"
 #include "queue.h"
 
+#include <string.h>
+
 UART_HandleTypeDef  x_uart_telemetry_handler;
 QueueHandle_t       x_queue_telemetry_channel_handler;
 SemaphoreHandle_t   x_semaphore_uart_telemetry_rx_ready_handle,
@@ -15,22 +17,23 @@ static void v_telementry_select( uint8_t u_telementry_channel );
 static uint8_t u_generate_crc8( uint8_t au_data[], uint8_t u_length );
 static uint8_t u_update_crc8( uint8_t u_crc, uint8_t u_crc_seed );
 
-static uint8_t au_telemetry[ku_THUSTER_NUMBER][ku_KISS_TELEMETRY_SIZE - 1];
+static uint8_t au_telemetry[ku_THUSTER_NUMBER][ku_KISS_TELEMETRY_SIZE - 1U];
 
 void v_task_telemetry_handler( void *pv_parameters )
 {
-    static TickType_t   x_last_wake_time;
-    static uint8_t      u_telemetry_channel_current = 0U,
-                        au_telemetry_current[ku_KISS_TELEMETRY_SIZE];
+    static const uint8_t kau_TELEMETRY_FALLBACK[ku_KISS_TELEMETRY_SIZE - 1U] = { 0U, 0U, 0U,
+                                                                                 0U, 0U, 0U, 
+                                                                                 0U, 0U, 0U };
+
+    static TickType_t    x_last_wake_time;
+    static uint8_t       u_telemetry_channel_current = 0U,
+                         au_telemetry_current[ku_KISS_TELEMETRY_SIZE];
 
     x_last_wake_time = xTaskGetTickCount();
 
     for(;;)
     {
-        if( xQueueSend( x_queue_telemetry_channel_handler, ( void * )&u_telemetry_channel_current, portMAX_DELAY ) != pdPASS )
-        {
-            v_error_handler();
-        }
+        xQueueSend( x_queue_telemetry_channel_handler, ( void * )&u_telemetry_channel_current, portMAX_DELAY );
 
         v_telementry_select( u_telemetry_channel_current );
 
@@ -45,10 +48,19 @@ void v_task_telemetry_handler( void *pv_parameters )
             {
                 v_error_handler();
             }
+
+            xSemaphoreTake( x_semaphore_telemetry_handle, portMAX_DELAY );
+
+            memcpy( ( void * )au_telemetry[u_telemetry_channel_current], ( void * )kau_TELEMETRY_FALLBACK, ku_KISS_TELEMETRY_SIZE - 1U );
+
+            if( xSemaphoreGive( x_semaphore_telemetry_handle ) != pdPASS )
+            {
+                v_error_handler();
+            }
         }
         else
         {
-            if( au_telemetry_current[ku_KISS_TELEMETRY_SIZE - 1U] == u_generate_crc8( au_telemetry_current, ku_KISS_TELEMETRY_SIZE - 1 ) )
+            if( au_telemetry_current[ku_KISS_TELEMETRY_SIZE - 1U] == u_generate_crc8( au_telemetry_current, ku_KISS_TELEMETRY_SIZE - 1U ) )
             {
                 xSemaphoreTake( x_semaphore_telemetry_handle, portMAX_DELAY );
 
@@ -76,15 +88,16 @@ void v_task_telemetry_handler( void *pv_parameters )
 
 void v_task_telemetry_trasmitter( void *pv_parameters )
 {
-    static TickType_t       x_last_wake_time;
-    static const uint8_t    kau_telemetry_begin[8U] = { 0xAAU, 0xAAU, 0xAAU, 0xAAU, 
-                                                        0xAAU, 0xAAU, 0xAAU, 0xAAU };
+    static const uint8_t kau_TELEMETRY_BEGIN[8U] = { 0xAAU, 0xAAU, 0xAAU, 0xAAU,
+                                                     0xAAU, 0xAAU, 0xAAU, 0xAAU };
+
+    static TickType_t x_last_wake_time;
     
     x_last_wake_time = xTaskGetTickCount();
 
     for(;;)
     {
-        if( HAL_UART_Transmit_IT( &x_uart_command_handle, ( uint8_t * )kau_telemetry_begin, 8U ) != HAL_OK )
+        if( HAL_UART_Transmit_IT( &x_uart_command_handle, ( uint8_t * )kau_TELEMETRY_BEGIN, 8U ) != HAL_OK )
         {
             v_error_handler();
         }
@@ -92,7 +105,7 @@ void v_task_telemetry_trasmitter( void *pv_parameters )
 
         xSemaphoreTake( x_semaphore_telemetry_handle, portMAX_DELAY );
 
-        if( HAL_UART_Transmit_IT( &x_uart_command_handle, ( uint8_t * )au_telemetry, ku_THUSTER_NUMBER * ( ku_KISS_TELEMETRY_SIZE - 1 ) ) != HAL_OK )
+        if( HAL_UART_Transmit_IT( &x_uart_command_handle, ( uint8_t * )au_telemetry, ku_THUSTER_NUMBER * ( ku_KISS_TELEMETRY_SIZE - 1U ) ) != HAL_OK )
         {
             v_error_handler();
         }
@@ -158,7 +171,7 @@ static uint8_t u_update_crc8( uint8_t u_crc, uint8_t u_crc_seed )
 
     for( uint8_t i = 0U ; i < 8U ; i++ )
     {
-        u_crc_update = ( u_crc_update & 0x80U ) ? 0x7U ^ ( u_crc_update << 1 ) : ( u_crc_update << 1 );
+        u_crc_update = ( u_crc_update & 0x80U ) ? 0x7U ^ ( u_crc_update << 1U ) : ( u_crc_update << 1U );
     }
 
     return u_crc_update;
