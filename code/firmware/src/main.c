@@ -40,8 +40,8 @@ static void v_task_thruster( void *pv_parameters );
 inline static uint16_t us_reverse_throttle_bit( uint16_t us_throttle );
 inline static uint8_t u_generate_crc( uint16_t us_pulse );
 
-static uint8_t  au_pulse[ku_THUSTER_NUMBER][ku_DSHOT_COMPENSTATED_COMMAND_SIZE],
-                au_pulse_current[ku_THUSTER_NUMBER][ku_DSHOT_COMPENSTATED_COMMAND_SIZE];
+static uint8_t  au_pulse[ku_THUSTER_NUMBER][ku_DSHOT_COMPENSTATED_COMMAND_SIZE_IN_BIT],
+                au_pulse_current[ku_THUSTER_NUMBER][ku_DSHOT_COMPENSTATED_COMMAND_SIZE_IN_BIT];
 
 int main( void )
 {
@@ -118,7 +118,7 @@ static void v_task_make_pulse( void *pv_parameters )
 
         for( uint8_t i = 0U ; i < ku_THUSTER_NUMBER ; i++ )
         {
-            for( uint8_t j = 0U ; j < ku_DSHOT_COMMAND_SIZE ; j++ )
+            for( uint8_t j = 0U ; j < ku_DSHOT_COMMAND_SIZE_IN_BIT ; j++ )
             {
                 if( ( aus_packet_dshot[i] & ( 1U << j ) ) == 0U )
                 {
@@ -130,7 +130,7 @@ static void v_task_make_pulse( void *pv_parameters )
                 }
             }
             
-            au_pulse[i][ku_DSHOT_COMPENSTATED_COMMAND_SIZE - 1U] = 0U;
+            au_pulse[i][ku_DSHOT_COMPENSTATED_COMMAND_SIZE_IN_BIT - 1U] = 0U;
         }
 
         if( xSemaphoreGive( x_semaphore_pulse_handle ) != pdTRUE )
@@ -152,46 +152,46 @@ static void v_task_thruster( void *pv_parameters )
     {
         xSemaphoreTake( x_semaphore_pulse_handle, portMAX_DELAY );
         
-        memcpy( ( void * ) au_pulse_current, ( void * ) au_pulse, ku_THUSTER_NUMBER * ku_DSHOT_COMPENSTATED_COMMAND_SIZE );
+        memcpy( ( void * ) au_pulse_current, ( void * ) au_pulse, ku_THUSTER_NUMBER * ku_DSHOT_COMPENSTATED_COMMAND_SIZE_IN_BIT );
 
         if( xSemaphoreGive( x_semaphore_pulse_handle ) != pdTRUE )
         {
             v_error_handler();
         }
 
-        if( HAL_TIM_PWM_Start_DMA( &x_tim8_handle, TIM_CHANNEL_1, ( uint32_t * )au_pulse_current[0U], ku_DSHOT_COMPENSTATED_COMMAND_SIZE ) != HAL_OK )
+        if( HAL_TIM_PWM_Start_DMA( &x_tim8_handle, TIM_CHANNEL_1, ( uint32_t * )au_pulse_current[0U], ku_DSHOT_COMPENSTATED_COMMAND_SIZE_IN_BIT ) != HAL_OK )
         {
             v_error_handler();
         }
         x_tim8_handle.State = HAL_TIM_STATE_READY; // override HAL internal locking mechanism
-        if( HAL_TIM_PWM_Start_DMA( &x_tim8_handle, TIM_CHANNEL_2, ( uint32_t * )au_pulse_current[1U], ku_DSHOT_COMPENSTATED_COMMAND_SIZE ) != HAL_OK )
+        if( HAL_TIM_PWM_Start_DMA( &x_tim8_handle, TIM_CHANNEL_2, ( uint32_t * )au_pulse_current[1U], ku_DSHOT_COMPENSTATED_COMMAND_SIZE_IN_BIT ) != HAL_OK )
         {
             v_error_handler();
         }
         x_tim8_handle.State = HAL_TIM_STATE_READY; // override HAL internal locking mechanism
-        if( HAL_TIM_PWM_Start_DMA( &x_tim3_handle, TIM_CHANNEL_3, ( uint32_t * )au_pulse_current[2U], ku_DSHOT_COMPENSTATED_COMMAND_SIZE ) != HAL_OK )
+        if( HAL_TIM_PWM_Start_DMA( &x_tim3_handle, TIM_CHANNEL_3, ( uint32_t * )au_pulse_current[2U], ku_DSHOT_COMPENSTATED_COMMAND_SIZE_IN_BIT ) != HAL_OK )
         {
             v_error_handler();
         }
-        if( HAL_TIM_PWM_Start_DMA( &x_tim8_handle, TIM_CHANNEL_4, ( uint32_t * )au_pulse_current[3U], ku_DSHOT_COMPENSTATED_COMMAND_SIZE ) != HAL_OK )
+        if( HAL_TIM_PWM_Start_DMA( &x_tim8_handle, TIM_CHANNEL_4, ( uint32_t * )au_pulse_current[3U], ku_DSHOT_COMPENSTATED_COMMAND_SIZE_IN_BIT ) != HAL_OK )
         {
             v_error_handler();
         }
         x_tim8_handle.State = HAL_TIM_STATE_READY; // override HAL internal locking mechanism
-        if( HAL_TIM_PWM_Start_DMA( &x_tim4_handle, TIM_CHANNEL_1, ( uint32_t * )au_pulse_current[4U], ku_DSHOT_COMPENSTATED_COMMAND_SIZE ) != HAL_OK )
+        if( HAL_TIM_PWM_Start_DMA( &x_tim4_handle, TIM_CHANNEL_1, ( uint32_t * )au_pulse_current[4U], ku_DSHOT_COMPENSTATED_COMMAND_SIZE_IN_BIT ) != HAL_OK )
         {
             v_error_handler();
         }
         x_tim4_handle.State = HAL_TIM_STATE_READY; // override HAL internal locking mechanism
-        if( HAL_TIM_PWM_Start_DMA( &x_tim4_handle, TIM_CHANNEL_2, ( uint32_t * )au_pulse_current[5U], ku_DSHOT_COMPENSTATED_COMMAND_SIZE ) != HAL_OK )
+        if( HAL_TIM_PWM_Start_DMA( &x_tim4_handle, TIM_CHANNEL_2, ( uint32_t * )au_pulse_current[5U], ku_DSHOT_COMPENSTATED_COMMAND_SIZE_IN_BIT ) != HAL_OK )
         {
             v_error_handler();
         }
-        if( HAL_TIM_PWM_Start_DMA( &x_tim16_handle, TIM_CHANNEL_1, ( uint32_t * )au_pulse_current[6U], ku_DSHOT_COMPENSTATED_COMMAND_SIZE ) != HAL_OK )
+        if( HAL_TIM_PWM_Start_DMA( &x_tim16_handle, TIM_CHANNEL_1, ( uint32_t * )au_pulse_current[6U], ku_DSHOT_COMPENSTATED_COMMAND_SIZE_IN_BIT ) != HAL_OK )
         {
             v_error_handler();
         }
-        if( HAL_TIM_PWM_Start_DMA( &x_tim8_handle, TIM_CHANNEL_3, ( uint32_t * )au_pulse_current[7U], ku_DSHOT_COMPENSTATED_COMMAND_SIZE ) != HAL_OK )
+        if( HAL_TIM_PWM_Start_DMA( &x_tim8_handle, TIM_CHANNEL_3, ( uint32_t * )au_pulse_current[7U], ku_DSHOT_COMPENSTATED_COMMAND_SIZE_IN_BIT ) != HAL_OK )
         {
             v_error_handler();
         }

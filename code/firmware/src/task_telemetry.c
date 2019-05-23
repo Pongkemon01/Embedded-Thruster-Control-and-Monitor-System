@@ -106,7 +106,7 @@ void v_task_telemetry_trasmitter( void *pv_parameters )
 
         xSemaphoreTake( x_semaphore_telemetry_handle, portMAX_DELAY );
 
-        if( HAL_UART_Transmit_IT( &x_uart_command_handle, ( uint8_t * )au_telemetry, ku_THUSTER_NUMBER * ( ku_KISS_TELEMETRY_SIZE - 1U ) ) != HAL_OK )
+        if( HAL_UART_Transmit_IT( &x_uart_command_handle, ( uint8_t * )au_telemetry, ku_TELEMETRY_SIZE ) != HAL_OK )
         {
             v_error_handler();
         }
