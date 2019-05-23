@@ -1,8 +1,8 @@
 #include "task_command.h"
 
-#include "task.h"
-
 #include <string.h>
+
+#include "task.h"
 
 UART_HandleTypeDef  x_uart_command_handle;
 SemaphoreHandle_t   x_semaphore_uart_command_rx_ready_handle,

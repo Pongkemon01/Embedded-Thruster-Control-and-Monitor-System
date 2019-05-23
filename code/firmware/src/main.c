@@ -1,12 +1,12 @@
 #include "main.h"
 
+#include <string.h>
+
 #include "task.h"
 
 #include "init.h"
 #include "task_command.h"
 #include "task_telemetry.h"
-
-#include <string.h>
 
 TIM_HandleTypeDef   x_tim3_handle,
                     x_tim4_handle,

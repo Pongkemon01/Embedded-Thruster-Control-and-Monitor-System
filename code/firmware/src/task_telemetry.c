@@ -1,9 +1,9 @@
 #include "task_telemetry.h"
 
+#include <string.h>
+
 #include "task.h"
 #include "queue.h"
-
-#include <string.h>
 
 UART_HandleTypeDef  x_uart_telemetry_handler;
 QueueHandle_t       x_queue_telemetry_channel_handler;
