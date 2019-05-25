@@ -16,8 +16,8 @@ namespace libetcam
 
     class TelemetrySync;
 
-    std::array< uint8_t, ku_THROTTLE_PACKET_SIZE > au_throttle_pack( const std::array< uint16_t, ku_THRUSTER_NUMBER >kaus_throttle );
-    std::array< struct TelemetryStruct, ku_THRUSTER_NUMBER > ax_telemetry_parser( const std::array< uint8_t, ku_THRUSTER_STATE_SIZE >kau_telemetry );
+    std::array< uint8_t, ku_THROTTLE_PACKET_SIZE > au_throttle_pack( const std::array< uint16_t, ku_THRUSTER_NUMBER >&kaus_throttle );
+    std::array< struct TelemetryStruct, ku_THRUSTER_NUMBER > ax_telemetry_parser( const std::array< uint8_t, ku_THRUSTER_STATE_SIZE >&kau_telemetry );
 }
 
 #endif

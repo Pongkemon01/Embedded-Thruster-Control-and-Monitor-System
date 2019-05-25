@@ -53,7 +53,7 @@ namespace libetcam
         uint16_t    us_erpm =               0U;
     };
 
-    std::array< uint8_t, ku_THROTTLE_PACKET_SIZE > au_throttle_pack( const std::array< uint16_t, ku_THRUSTER_NUMBER >kaus_throttle )
+    std::array< uint8_t, ku_THROTTLE_PACKET_SIZE > au_throttle_pack( const std::array< uint16_t, ku_THRUSTER_NUMBER >&kaus_throttle )
     {
         std::array< uint8_t, ku_THROTTLE_PACKET_SIZE > au_throttle_packet;
 
@@ -64,7 +64,7 @@ namespace libetcam
         return au_throttle_packet;
     }
 
-    std::array< struct TelemetryStruct, ku_THRUSTER_NUMBER > ax_telemetry_parser( const std::array< uint8_t, ku_THRUSTER_STATE_SIZE >kau_telemetry )
+    std::array< struct TelemetryStruct, ku_THRUSTER_NUMBER > ax_telemetry_parser( const std::array< uint8_t, ku_THRUSTER_STATE_SIZE >&kau_telemetry )
     {
         std::array< struct TelemetryStruct, ku_THRUSTER_NUMBER > ax_thruster_state;
         
