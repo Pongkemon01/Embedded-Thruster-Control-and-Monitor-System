@@ -8,27 +8,27 @@ namespace libetcam
 
     TelemetrySync::TelemetrySync( void )
     {
-        this->u_sync_count = 0U;
+        this->u_sync_count_ = 0U;
     }
             
     bool TelemetrySync::b_telemetry_sync( const uint8_t ku_recieve_byte )
     {
         bool is_sync = false;
         
-        if( ku_recieve_byte == ku_SYNC_BYTE )
+        if( ku_recieve_byte == ku_SYNC_BYTE_ )
         {
-            ( this->u_sync_count )++;
+            ( this->u_sync_count_ )++;
             
-            if( this->u_sync_count >= 8U )
+            if( this->u_sync_count_ >= ku_SYNC_LENGTH_ )
             {
                 is_sync = true;
 
-                this->u_sync_count = 0U;
+                this->u_sync_count_ = 0U;
             }
         }
         else
         {
-            this->u_sync_count = 0U;
+            this->u_sync_count_ = 0U;
         }
 
         return is_sync;

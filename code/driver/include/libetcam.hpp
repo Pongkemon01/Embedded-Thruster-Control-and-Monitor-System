@@ -19,10 +19,10 @@ namespace libetcam
             bool b_telemetry_sync( const uint8_t ku_recieve_byte );
 
         private:
-            static const uint8_t    ku_SYNC_BYTE =      0xAAU;
-            static const uint8_t    ku_SYNC_LENGTH =    8U;
+            static const uint8_t    ku_SYNC_BYTE_ =      0xAAU;
+            static const uint8_t    ku_SYNC_LENGTH_ =    8U;
 
-            uint8_t                 u_sync_count =      0U;
+            uint8_t                 u_sync_count_ =      0U;
     };
 
     struct TelemetryStruct
