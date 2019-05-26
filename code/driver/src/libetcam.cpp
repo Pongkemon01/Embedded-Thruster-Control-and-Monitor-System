@@ -6,52 +6,33 @@ namespace libetcam
 {
     static const uint8_t ku_COMMAND_THROTTLE = 0xA1U;
 
-    class TelemetrySync
+    TelemetrySync::TelemetrySync( void )
     {
-        public:
-            TelemetrySync( void )
+        this->u_sync_count = 0U;
+    }
+            
+    bool TelemetrySync::b_telemetry_sync( const uint8_t ku_recieve_byte )
+    {
+        bool is_sync = false;
+        
+        if( ku_recieve_byte == ku_SYNC_BYTE )
+        {
+            ( this->u_sync_count )++;
+            
+            if( this->u_sync_count >= 8U )
             {
+                is_sync = true;
+
                 this->u_sync_count = 0U;
             }
-            
-            bool b_telemetry_sync( const uint8_t ku_recieve_byte )
-            {
-                bool is_sync = false;
-                
-                if( ku_recieve_byte == ku_SYNC_BYTE )
-                {
-                    ( this->u_sync_count )++;
-                    
-                    if( this->u_sync_count >= 8U )
-                    {
-                        is_sync = true;
+        }
+        else
+        {
+            this->u_sync_count = 0U;
+        }
 
-                        this->u_sync_count = 0U;
-                    }
-                }
-                else
-                {
-                    this->u_sync_count = 0U;
-                }
-
-                return is_sync;
-            }
-
-        private:
-            static const uint8_t    ku_SYNC_BYTE =      0xAAU;
-            static const uint8_t    ku_SYNC_LENGTH =    8U;
-
-            uint8_t                 u_sync_count;
-    };
-
-    struct TelemetryStruct
-    {
-        uint8_t     u_temperature =         0U;
-        float       f_voltage =             0U;
-        float       f_current =             0U;
-        uint16_t    us_power_consumtion =   0U;
-        uint16_t    us_erpm =               0U;
-    };
+        return is_sync;
+    }
 
     std::array< uint8_t, ku_THROTTLE_PACKET_SIZE > au_throttle_pack( const std::array< uint16_t, ku_THRUSTER_NUMBER >&kaus_throttle )
     {

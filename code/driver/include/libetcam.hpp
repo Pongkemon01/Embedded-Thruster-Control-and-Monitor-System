@@ -12,9 +12,27 @@ namespace libetcam
     const uint8_t ku_TELEMETRY_SIZE =           9U;
     const uint8_t ku_THRUSTER_STATE_SIZE =      ku_THRUSTER_NUMBER * ku_TELEMETRY_SIZE;
 
-    struct TelemetryStruct;
+    class TelemetrySync
+    {
+        public:
+            TelemetrySync( void );
+            bool b_telemetry_sync( const uint8_t ku_recieve_byte );
 
-    class TelemetrySync;
+        private:
+            static const uint8_t    ku_SYNC_BYTE =      0xAAU;
+            static const uint8_t    ku_SYNC_LENGTH =    8U;
+
+            uint8_t                 u_sync_count =      0U;
+    };
+
+    struct TelemetryStruct
+    {
+        uint8_t     u_temperature =         0U;
+        float       f_voltage =             0U;
+        float       f_current =             0U;
+        uint16_t    us_power_consumtion =   0U;
+        uint16_t    us_erpm =               0U;
+    };
 
     std::array< uint8_t, ku_THROTTLE_PACKET_SIZE > au_throttle_pack( const std::array< uint16_t, ku_THRUSTER_NUMBER >&kaus_throttle );
     std::array< struct TelemetryStruct, ku_THRUSTER_NUMBER > ax_telemetry_parser( const std::array< uint8_t, ku_THRUSTER_STATE_SIZE >&kau_telemetry );
