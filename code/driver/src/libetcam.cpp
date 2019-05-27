@@ -55,11 +55,13 @@ namespace libetcam
 
             ax_telemetry_parsed[i].u_temperature = kau_telemetry[( i * ku_KISS_TELEMETRY_REDUCED_SIZE ) + 0U];
 
-            std::memcpy( ( void * )( &us_copy_float_section ), ( void * )( &( kau_telemetry[( i * ku_KISS_TELEMETRY_REDUCED_SIZE ) + 1U] ) ), 2U );
-            ax_telemetry_parsed[i].f_voltage = ( float )( us_copy_float_section * 100U );
+            us_copy_float_section = ( kau_telemetry[( i * ku_KISS_TELEMETRY_REDUCED_SIZE ) + 1U] << 8U );
+            us_copy_float_section |= kau_telemetry[( i * ku_KISS_TELEMETRY_REDUCED_SIZE ) + 2U];
+            ax_telemetry_parsed[i].f_voltage = ( float )( us_copy_float_section ) / ( float )( 100U );
 
-            std::memcpy( ( void * )( &us_copy_float_section ), ( void * )( &( kau_telemetry[( i * ku_KISS_TELEMETRY_REDUCED_SIZE ) + 3U] ) ), 2U );
-            ax_telemetry_parsed[i].f_current = ( float )( us_copy_float_section * 100U );
+            us_copy_float_section = ( kau_telemetry[( i * ku_KISS_TELEMETRY_REDUCED_SIZE ) + 3U] << 8U );
+            us_copy_float_section |= kau_telemetry[( i * ku_KISS_TELEMETRY_REDUCED_SIZE ) + 4U];
+            ax_telemetry_parsed[i].f_current = ( float )( us_copy_float_section ) / ( float )( 100U );
 
             std::memcpy( ( void * )( &( ax_telemetry_parsed[i].us_power_consumtion ) ), ( void * )( &( kau_telemetry[( i * ku_KISS_TELEMETRY_REDUCED_SIZE ) + 5U] ) ), 2U );
 
