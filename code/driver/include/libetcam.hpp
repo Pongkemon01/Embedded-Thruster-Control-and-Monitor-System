@@ -30,7 +30,7 @@ namespace libetcam
         uint8_t     u_temperature =         0U;
         float       f_voltage =             0U;
         float       f_current =             0U;
-        uint16_t    us_power_consumtion =   0U;
+        uint16_t    us_power_consumption =  0U;
         uint16_t    us_erpm =               0U;
     };
 

@@ -63,7 +63,7 @@ namespace libetcam
             us_copy_float_section |= kau_telemetry[( i * ku_KISS_TELEMETRY_REDUCED_SIZE ) + 4U];
             ax_telemetry_parsed[i].f_current = ( float )( us_copy_float_section ) / ( float )( 100U );
 
-            std::memcpy( ( void * )( &( ax_telemetry_parsed[i].us_power_consumtion ) ), ( void * )( &( kau_telemetry[( i * ku_KISS_TELEMETRY_REDUCED_SIZE ) + 5U] ) ), 2U );
+            std::memcpy( ( void * )( &( ax_telemetry_parsed[i].us_power_consumption ) ), ( void * )( &( kau_telemetry[( i * ku_KISS_TELEMETRY_REDUCED_SIZE ) + 5U] ) ), 2U );
 
             std::memcpy( ( void * )( &( ax_telemetry_parsed[i].us_erpm ) ), ( void * )( &( kau_telemetry[( i * ku_KISS_TELEMETRY_REDUCED_SIZE ) + 7U] ) ), 2U );
         }
