@@ -22,16 +22,16 @@ namespace libetcam
             static const uint8_t    ku_SYNC_BYTE_ =      0xAAU;
             static const uint8_t    ku_SYNC_LENGTH_ =    8U;
 
-            uint8_t                 u_sync_count_ =      0U;
+            uint8_t                 u_sync_count;
     };
 
     struct TelemetryStruct
     {
-        uint8_t     u_temperature =         0U;
-        float       f_voltage =             0U;
-        float       f_current =             0U;
-        uint16_t    us_power_consumption =  0U;
-        uint32_t    us_erpm =               0U;
+        uint8_t     u_temperature;
+        float       f_voltage;
+        float       f_current;
+        uint16_t    us_power_consumption;
+        uint32_t    us_erpm;
     };
 
     std::array< uint8_t, ku_THROTTLE_PACKET_SIZE > au_throttle_pack( const std::array< uint16_t, ku_THRUSTER_NUMBER >&kaus_throttle );
