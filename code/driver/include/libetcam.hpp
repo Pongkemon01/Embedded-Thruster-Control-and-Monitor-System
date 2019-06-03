@@ -22,7 +22,7 @@ namespace libetcam
             static const uint8_t    ku_SYNC_BYTE_ =      0xAAU;
             static const uint8_t    ku_SYNC_LENGTH_ =    8U;
 
-            uint8_t                 u_sync_count;
+            uint8_t                 u_sync_count_;
     };
 
     struct TelemetryStruct
