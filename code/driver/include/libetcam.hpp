@@ -31,7 +31,7 @@ namespace libetcam
         float       f_voltage =             0U;
         float       f_current =             0U;
         uint16_t    us_power_consumption =  0U;
-        uint16_t    us_erpm =               0U;
+        uint32_t    us_erpm =               0U;
     };
 
     std::array< uint8_t, ku_THROTTLE_PACKET_SIZE > au_throttle_pack( const std::array< uint16_t, ku_THRUSTER_NUMBER >&kaus_throttle );

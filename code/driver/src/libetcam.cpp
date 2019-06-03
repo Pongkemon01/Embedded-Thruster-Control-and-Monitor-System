@@ -51,21 +51,23 @@ namespace libetcam
         
         for( uint8_t i = 0U ; i < ku_THRUSTER_NUMBER ; i++ )
         {
-            uint16_t us_copy_float_section;
+            uint16_t us_copy_half_word;
 
             ax_telemetry_parsed[i].u_temperature = kau_telemetry[( i * ku_KISS_TELEMETRY_REDUCED_SIZE ) + 0U];
 
-            us_copy_float_section = ( kau_telemetry[( i * ku_KISS_TELEMETRY_REDUCED_SIZE ) + 1U] << 8U );
-            us_copy_float_section |= kau_telemetry[( i * ku_KISS_TELEMETRY_REDUCED_SIZE ) + 2U];
-            ax_telemetry_parsed[i].f_voltage = ( float )( us_copy_float_section ) / ( float )( 100U );
+            us_copy_half_word = ( kau_telemetry[( i * ku_KISS_TELEMETRY_REDUCED_SIZE ) + 1U] << 8U );
+            us_copy_half_word |= kau_telemetry[( i * ku_KISS_TELEMETRY_REDUCED_SIZE ) + 2U];
+            ax_telemetry_parsed[i].f_voltage = ( float )( us_copy_half_word ) / ( float )( 100U );
 
-            us_copy_float_section = ( kau_telemetry[( i * ku_KISS_TELEMETRY_REDUCED_SIZE ) + 3U] << 8U );
-            us_copy_float_section |= kau_telemetry[( i * ku_KISS_TELEMETRY_REDUCED_SIZE ) + 4U];
-            ax_telemetry_parsed[i].f_current = ( float )( us_copy_float_section ) / ( float )( 100U );
+            us_copy_half_word = ( kau_telemetry[( i * ku_KISS_TELEMETRY_REDUCED_SIZE ) + 3U] << 8U );
+            us_copy_half_word |= kau_telemetry[( i * ku_KISS_TELEMETRY_REDUCED_SIZE ) + 4U];
+            ax_telemetry_parsed[i].f_current = ( float )( us_copy_half_word ) / ( float )( 100U );
 
             std::memcpy( ( void * )( &( ax_telemetry_parsed[i].us_power_consumption ) ), ( void * )( &( kau_telemetry[( i * ku_KISS_TELEMETRY_REDUCED_SIZE ) + 5U] ) ), 2U );
 
-            std::memcpy( ( void * )( &( ax_telemetry_parsed[i].us_erpm ) ), ( void * )( &( kau_telemetry[( i * ku_KISS_TELEMETRY_REDUCED_SIZE ) + 7U] ) ), 2U );
+            us_copy_half_word = ( kau_telemetry[( i * ku_KISS_TELEMETRY_REDUCED_SIZE ) + 7U] << 8U );
+            us_copy_half_word |= kau_telemetry[( i * ku_KISS_TELEMETRY_REDUCED_SIZE ) + 8U];
+            ax_telemetry_parsed[i].us_erpm = ( uint32_t )( us_copy_half_word * 100 );
         }
 
         return ax_telemetry_parsed;
