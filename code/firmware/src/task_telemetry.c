@@ -34,14 +34,18 @@ void v_task_telemetry_handler( void *pv_parameters )
 
     for(;;)
     {
-        xQueueSend( x_queue_telemetry_channel_handler, ( void * )&u_telemetry_channel_current, portMAX_DELAY );
-
         v_telementry_select( u_telemetry_channel_current );
+
+        vTaskDelay( pdMS_TO_TICKS( 1U ) );
+
+        __HAL_UART_FLUSH_DRREGISTER( &x_uart_telemetry_handler );
 
         if( HAL_UART_Receive_DMA( &x_uart_telemetry_handler, au_telemetry_current, ku_KISS_TELEMETRY_SIZE ) != HAL_OK )
         {
             v_error_handler();
         }
+
+        xQueueSend( x_queue_telemetry_channel_handler, ( void * )&u_telemetry_channel_current, portMAX_DELAY );
 
         if( xSemaphoreTake( x_semaphore_uart_telemetry_rx_ready_handle, pdMS_TO_TICKS( 40U ) ) != pdPASS )
         {
