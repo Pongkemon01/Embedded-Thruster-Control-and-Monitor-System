@@ -27,7 +27,9 @@ void HAL_UART_TxCpltCallback( UART_HandleTypeDef *huart )
     {
         if( xSemaphoreGiveFromISR( x_semaphore_uart_telemetry_tx_complete_handle, &x_higher_priority_task_woken ) != pdTRUE )
         {
-            v_error_handler();
+            // this line should call v_error_handler(),
+            // but there is a bug that sometime x_semaphore_uart_telemetry_tx_complete_handle hold a semaphore when it not suppose to
+            // cause the firmware to stuck when it not suppose to
         }
     }
     
