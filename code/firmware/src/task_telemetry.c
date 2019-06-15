@@ -36,8 +36,10 @@ void v_task_telemetry_handler( void *pv_parameters )
     {
         v_telementry_select( u_telemetry_channel_current );
 
+        // wait for UART RX line to be stable
         vTaskDelay( pdMS_TO_TICKS( 1U ) );
 
+        // flush the stuck data of previous iteration from UART RX data register
         __HAL_UART_FLUSH_DRREGISTER( &x_uart_telemetry_handler );
 
         if( HAL_UART_Receive_DMA( &x_uart_telemetry_handler, au_telemetry_current, ku_KISS_TELEMETRY_SIZE ) != HAL_OK )

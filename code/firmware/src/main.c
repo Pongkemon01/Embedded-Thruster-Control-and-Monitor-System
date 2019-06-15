@@ -76,7 +76,7 @@ int main( void )
 
     vTaskStartScheduler();
 
-    //the program should never reach this point
+    // the program should never reach this point
     v_error_handler();
 
     return 0;
