@@ -37,10 +37,10 @@ EELAYER 25 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 5 6
+Sheet 6 6
 Title "Controller"
 Date "2019-04-19"
-Rev "0.9.2"
+Rev "0.9.3"
 Comp ""
 Comment1 ""
 Comment2 ""
@@ -621,14 +621,6 @@ Wire Wire Line
 	1550 1400 4600 1400
 Text Label 3000 3050 0    60   ~ 12
 BOOT0
-Text HLabel 1550 3700 0    60   Input ~ 0
-TX_TELEMENTRY
-Text HLabel 1550 3900 0    60   Output ~ 0
-TELEMENTRY_SEL0
-Text HLabel 1550 4000 0    60   Output ~ 0
-TELEMENTRY_SEL1
-Text HLabel 1550 4100 0    60   Output ~ 0
-TELEMENTRY_SEL2
 Wire Wire Line
 	3850 3050 3850 2450
 Wire Wire Line
@@ -914,4 +906,12 @@ Connection ~ 2150 1950
 Wire Wire Line
 	2700 1750 2700 2000
 Connection ~ 2700 1950
+Text HLabel 1550 3700 0    60   Input ~ 0
+TX_TELEMETRY
+Text HLabel 1550 4100 0    60   Output ~ 0
+TELEMETRY_SEL2
+Text HLabel 1550 4000 0    60   Output ~ 0
+TELEMETRY_SEL1
+Text HLabel 1550 3900 0    60   Output ~ 0
+TELEMETRY_SEL0
 $EndSCHEMATC
