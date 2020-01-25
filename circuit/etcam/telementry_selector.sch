@@ -40,7 +40,7 @@ encoding utf-8
 Sheet 4 6
 Title "Telementry_selector"
 Date "2019-04-19"
-Rev "0.9.1"
+Rev "0.9.2"
 Comp ""
 Comment1 ""
 Comment2 ""
@@ -95,27 +95,27 @@ Wire Wire Line
 Text HLabel 4900 2400 0    60   Input ~ 0
 +3.3V_USB
 Text HLabel 4900 3150 0    60   Input ~ 0
-TELEMENTRY1
+TELEMETRY1
 Text HLabel 4900 3250 0    60   Input ~ 0
-TELEMENTRY2
+TELEMETRY2
 Text HLabel 4900 3350 0    60   Input ~ 0
-TELEMENTRY3
+TELEMETRY3
 Text HLabel 4900 3450 0    60   Input ~ 0
-TELEMENTRY4
+TELEMETRY4
 Text HLabel 4900 3550 0    60   Input ~ 0
-TELEMENTRY5
+TELEMETRY5
 Text HLabel 4900 3650 0    60   Input ~ 0
-TELEMENTRY6
+TELEMETRY6
 Text HLabel 4900 3750 0    60   Input ~ 0
-TELEMENTRY7
+TELEMETRY7
 Text HLabel 4900 3850 0    60   Input ~ 0
-TELEMENTRY8
+TELEMETRY8
 Text HLabel 4900 4050 0    60   Input ~ 0
-TELEMENTRY_SEL0
+TELEMETRY_SEL0
 Text HLabel 4900 4150 0    60   Input ~ 0
-TELEMENTRY_SEL1
+TELEMETRY_SEL1
 Text HLabel 4900 4250 0    60   Input ~ 0
-TELEMENTRY_SEL2
+TELEMETRY_SEL2
 Wire Wire Line
 	4900 4050 5450 4050
 Wire Wire Line
@@ -140,8 +140,6 @@ Wire Wire Line
 	4900 3850 5450 3850
 Wire Wire Line
 	6000 2400 6000 2950
-Text HLabel 7100 3300 2    60   Output ~ 0
-SELECTED_TELEMENTRY
 Wire Wire Line
 	6550 3300 7100 3300
 $Comp
@@ -179,4 +177,6 @@ Wire Wire Line
 Wire Wire Line
 	5150 2750 5500 2750
 Connection ~ 5500 2750
+Text HLabel 7100 3300 2    60   Output ~ 0
+SELECTED_TELEMETRY
 $EndSCHEMATC
